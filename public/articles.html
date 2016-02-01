@@ -1,0 +1,55 @@
+<div class="col-xs-1"></div>
+<div class="col-xs-10">
+	<div class="row">
+		<div class="col-xs-2">
+			<label class="articles">Section:</label>
+		</div>
+		<div class="col-xs-3">
+			<select class="form-control" ng-model="section">
+				<option value="all">All</option>
+				<option value="local">Local</option>
+				<option value="regional">Regional</option>
+				<option value="national">National</option>
+				<option value="international">International</option>
+			</select>
+		</div>
+		<div class="col-xs-2">
+			<input type="checkbox" class="cursor" id="localLink" ng-model="linkCheck"> <label class="articles" for="localLink">Links</label>
+		</div>
+		<div class="col-xs-2">
+			<input type="checkbox" class="cursor" id="localPDF" ng-model="PDFCheck"> <label class="articles" for="localPDF">PDFs</label>
+		</div>
+		<div class="col-xs-3">
+			<input type="text" ng-model="searchStr" placeholder="Search" class="form-control">
+		</div>
+	</div>
+	<hr>
+	<div class="row" id="links" ng-hide="linkShow">
+		<div class="col-xs-12 padding-bottom">
+			Links <span class="disclaimer">(will direct to external site)</span>
+		</div>
+		<div class="col-xs-12 padding-bottom" ng-repeat="x in links | filter:searchStr | filter:section:true">
+			<button ng-click="gotoArticle($index,'link')" type="button" class="btn btn-default btn-lg btn-block article" style="text-align:left" title="Click for article">
+				<u>{{ x.headline }}</u> 
+				<br/> 
+				{{ x.desc }}
+			</button>
+		</div>
+	</div>
+	<div class="row" id="PDFs" ng-hide="PDFShow">
+		<div class="col-xs-12 padding-bottom">
+			PDFs
+		</div>
+		<div class="col-xs-12 padding-bottom" ng-repeat="x in PDFs | filter:searchStr | filter:section:true">
+			<button ng-click="gotoArticle($index,'PDF')" type="button" class="btn btn-default btn-lg btn-block article" title="Click to Save">
+				<u>{{ x.headline }}</u>
+				<br/> 
+				{{ x.desc }}
+			</button>
+		</div>
+	</div>
+	<div class="col-xs-12 padding-bottom" ng-show="errMsg">
+		<span class="none">There are no articles matching this criteria. Please try again.</span>
+	</div>
+</div>
+<div class="col-xs-1"></div>

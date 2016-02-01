@@ -1,0 +1,142 @@
+@font-face {
+  font-family: 'Varela Round';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Varela Round'), local('VarelaRound-Regular'), url(https://fonts.gstatic.com/s/varelaround/v6/APH4jr0uSos5wiut5cpjrugdm0LZdjqr5-oayXSOefg.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+body, html {
+	font-family: Varela Round,arial,sans-serif;
+	font-size:20px!important;
+	height:98%;
+}
+
+textarea {
+    max-width: 100%
+}
+
+.center {
+	text-align:center;
+}
+
+.canvas {
+	padding:75px 75px 0;
+	margin: 0 auto;
+	min-height:100%;
+}
+
+.padding-bottom {
+	padding-bottom:15px;
+}
+
+.padding-top {
+	padding-top:15px;
+}
+
+.block {
+	margin-top: 40px;
+	margin-bottom:40px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.padding {
+	padding: 0 80px;
+}
+
+.link{
+	font-style:italic;
+}
+
+.link:hover {
+	border:none;
+	color:#444;
+}
+
+a {
+	color: #999999!important;
+}
+
+.cursor {
+	cursor:pointer;
+}
+
+.help-block, .with-errors {
+	font-size:14px;
+}
+
+.star {
+	color:red;
+}
+
+label {
+	padding-top:20px;
+}
+
+.none {
+	font-style: italic
+}
+
+.disclaimer {
+	font-style:italic;
+	font-size:10px;
+}
+
+hr {
+	border-color: #BBB
+}
+
+.articles {
+	padding: 5px;
+	cursor:pointer;
+}
+
+.article {
+	text-align:left;
+}
+
+.submit {
+	margin:30px auto;
+	width:30%;
+}
+
+a:hover {    
+	border-bottom: 1px solid #999;
+    padding-bottom: 2px;
+    color:#000;
+    text-decoration:none;
+    cursor:pointer;
+}
+
+.footer {
+	font-size:14px;
+	text-align:center;
+}
+
+.typed-cursor{
+	font-size:22px;
+    opacity: 1;
+    -webkit-animation: blink 0.7s infinite;
+    -moz-animation: blink 0.7s infinite;
+    animation: blink 0.7s infinite;
+}
+@keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-webkit-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-moz-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+
+.element {
+	display:inline;
+}

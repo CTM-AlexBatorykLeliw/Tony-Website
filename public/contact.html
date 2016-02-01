@@ -1,0 +1,41 @@
+<div class="col-xs-3"></div>
+<div class="col-xs-6 padding">
+	<div class="row">
+		<div class="col-xs-12 padding-bottom">
+			For any enquiries or more information, you can get in contact with me here:
+		</div>
+		<div class="col-xs-12">
+		<form name="contactForm" data-toggle="validator" role="form">
+			<!-- Name field -->
+			<div class="form-group">
+				<label for="name">Name <span class="star">*</span></label>
+				<input type="text" class="form-control" ng-model="name" id="name" data-error="Required" ng-pattern="/^[A-Za-z]$/g" required>
+				<div class="help-block with-errors"></div>
+			</div>
+			<!-- Email field -->
+			<div class="form-group">
+				<label for="email">Email <span class="star">*</span></label>
+				<input type="email" class="form-control" ng-model="email" data-error="Please enter a valid email" required>
+				<div class="help-block with-errors"></div>
+			</div>
+			<!-- Subject field -->
+			<div class="form-group">
+				<label for="subject">Subject <span class="star">*</span></label>
+				<input type="subject" class="form-control" ng-model="subject" data-error="Required" ng-pattern="/^[A-Za-z]$/g" required>
+				<div class="help-block with-errors"></div>
+			</div>
+			<!-- More information field -->
+			<div class="form-group">
+				<label for="moreinfo">Enter your message here <span class="star">*</span></label>
+				<textarea ng-pattern="/^[A-Za-z]$/g" class="form-control" ng-model="moreinfo" data-error="Required" required></textarea>
+				<div class="help-block with-errors"></div>
+			</div>
+			<!-- Submit form button -->
+			<div class="form-group" align="center">
+				<input type="submit" class="form-control submit btn btn-default" value="Submit" ng-click="submit();" ng-disabled="contactForm.$invalid">
+			</div>
+		</form>
+		</div>
+	</div>
+</div>
+<div class="col-xs-3"></div>
