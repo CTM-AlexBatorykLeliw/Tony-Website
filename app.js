@@ -21,16 +21,16 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // Middleware for app
-app.use(favicon(path.join(__dirname, 'public/images', 'book.png')));
+app.use(favicon(path.join(__dirname, 'public/images/book.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/public')));
-// Serve npm files into pages
+// Serve npm modules into pages from folder
 app.use('/modules', express.static(__dirname + '/node_modules/'));
-app.use('/public', express.static(__dirname + '/public/'));
 
+// Middleware connecting routes to front-end pages
 app.use('/', routes);
 
 // catch 404 and forward to error handler

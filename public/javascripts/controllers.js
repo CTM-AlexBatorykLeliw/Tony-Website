@@ -1,21 +1,18 @@
-var app = angular.module('portfolio', ['ngRoute']);
+var app = angular.module('portfolio', ['ngRoute', 'fs']);
 
 app.config(function($routeProvider){
     $routeProvider
         .when('/home', {
             templateUrl: 'home.html',
-            controller: 'homeCtrl',
-            activetab: 'home'
+            controller: 'homeCtrl'
         })
         .when('/media', {
             templateUrl: 'media.html',
-            controller: 'mediaCtrl',
-            activetab: 'media'
+            controller: 'mediaCtrl'
         })
         .when('/contact', {
             templateUrl: 'contact.html',
-            controller: 'contactCtrl',
-            activetab: 'contact'
+            controller: 'contactCtrl'
         })
         .when('/articles', {
             templateUrl: 'articles.html',
@@ -24,8 +21,16 @@ app.config(function($routeProvider){
                 postPromise: ['MediaService', function(MediaService){
                     return MediaService.get('/articles');
                 }]
-            },
-            activetab: 'articles'
+            }
+        })
+        .when('/uploads', {
+            templateUrl: 'uploads.html',
+            controller: 'uploadCtrl',
+            resolve: {
+                postPromise: ['MediaService', function(MediaService){
+                    return MediaService.get('/media');
+                }]
+            }
         })
         .otherwise({ redirectTo: '/home' });
 });
@@ -54,7 +59,7 @@ app.service('MediaService', function($http){
 });
 
 app.controller('homeCtrl', function($scope, $route){
-    $scope.$route = $route;
+    
 });
 
 app.controller('contactCtrl', function($scope){
@@ -67,7 +72,8 @@ app.controller('contactCtrl', function($scope){
             to: "alex.batoryk.leliw@hotmail.com",
             subject: $scope.subject,
             text: $scope.moreinfo
-        }
+        };
+
         smtpTransport.sendMail(mail, function(err, res){
             if(err)
                 console.log(err);
@@ -79,33 +85,59 @@ app.controller('contactCtrl', function($scope){
     }
 });
 
-app.controller('articlesCtrl',  function($scope, $window){
+app.controller('articlesCtrl',  function($scope, $window, MediaService){
 
-    // $scope.section = "!!";
+    var links = MediaService.get('/articles/links');
+    var PDFs = MediaService.get('/articles/PDFs')
 
-    // $scope.linkCheck = true, $scope.PDFCheck = true;
-    // $scope.linkShow = $scope.linkCheck && links.length == 0;
-    // $scope.PDFShow = $scope.PDFCheck && PDFs.length == 0;
-    // $scope.errMsg = !links.length == 0 && !PDFs.length == 0;
+    $scope.linkCheck = true, $scope.PDFCheck = true;
 
-    // for(var i = 0; i < $scope.articleList.length; i++)
-    // {
-    //     if($scope.articleList[i].type === "PDF")
-    //         $scope.PDFs.push($scope.articleList[i])
-    //     else if($scope.articleList[i].type === "link")
-    //         $scope.links.push($scope.articleList[i]);
-    // }
-
-    // $scope.gotoArticle = function(id, type)
-    // {
-    //     if(type === "link")
-    //         $window.open('http://' + $scope.links[id].link,'_blank');
-    //     else if(type === 'PDF')
-    //         $window.open($scope.PDFs[id].link);
-    // }
+    $scope.actionArticle = function(id, type)
+    {
+        if(type)
+            $window.open('http://' + $scope.links[id].link,'_blank');
+        else
+            $window.open($scope.PDFs[id].link, '_blank');
+    }
 
 });
 
 app.controller('mediaCtrl', function($scope){
+    $scope.images = MediaService.get('/');
+});
 
+app.controller('uploadCtrl', function($scope, MediaService, fs){
+    $scope.a = {};
+
+    $scope.uploadArticle = function()
+    {
+        var asset = {
+            title: $scope.a.title,
+            desc: $scope.a.desc,
+            link: $scope.a.link,
+            section: $scope.a.section,
+            type: $scope.a.type,
+            path: $scope.a.path
+        };
+
+        MediaService.post('/uploads', asset).success(function(){
+            fs.readFile(req.files.displayImage.path, function(err, data){
+                if(err)
+                    console.log(err);
+                
+                var newPath = __dirname + '/uploads/uploadedFileName';
+                fs.writeFile(newPath, data, function(err){
+                    res.redirect("back");
+                });
+            });
+            console.log("Upload Complete");
+        });
+    }
+
+    $scope.delete = function(id)
+    {
+        MediaService.delete(id).success(function(){
+            console.log("Asset Deleted");
+        });
+    }
 });
