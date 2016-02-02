@@ -125,6 +125,7 @@ app.controller('uploadCtrl', function($scope, MediaService, fs){
                 if(err)
                     console.log(err);
                 
+                // FDP upload
                 var newPath = __dirname + '/uploads/uploadedFileName';
                 fs.writeFile(newPath, data, function(err){
                     res.redirect("back");
