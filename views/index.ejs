@@ -7,19 +7,20 @@
 <meta name="description" content="Portfolio of Tony Leliw" />
 <meta name="keywords" content="Tony, Leliw, Writer, Journalist" />
 <meta name="msvalidate.01" content="" /> <!-- Website verification -->
-<link href="public/images/book.png" rel="icon" />
+<link href="images/book.png" rel="icon" />
 <meta name="theme-color" content="#379CD0" />
 <link href="https://www.tony-leliw.com/" rel="canonical" />
 <meta name="viewport" content="initial-scale=1">
 <script src="modules/jquery/dist/jquery.min.js"></script>
 <link rel="stylesheet" href="modules/bootstrap/dist/css/bootstrap.min.css"></script>
 <script src="modules/bootstrap/dist/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="public/stylesheets/style.css">
+<link rel="stylesheet" href="stylesheets/style.css">
 <script src="modules/angular/angular.min.js"></script>
 <script src="modules/angular-route/angular-route.min.js"></script>
 <script src="modules/typed.js/dist/typed.min.js"></script>
-<script src="public/javascripts/controllers.js"></script>
+<script src="javascripts/controllers.js"></script>
 <script src="modules/bootstrap-validator/js/validator.js"></script>
+<link rel="stylesheet" href="modules/blueimp-gallery/css/blueimp-gallery.min.css">
 </head>
 <body ng-app="portfolio">
 
@@ -32,7 +33,7 @@
 		</div>
 		<div class="row padding-bottom center">
 			<div class="col-xs-3">
-				<a class="active nav" href="#/home">HOME</a>
+				<a class="nav" href="#/home">HOME</a>
 			</div>
 			<div class="col-xs-3">
 				<a class="nav" href="#/media">MEDIA</a>
@@ -46,10 +47,9 @@
 		</div>
 	</div>
 
-	<div ng-view></div>	
+	<div ng-view></div>
 
 </div>
-
 
 <!-- Footer -->
 <div class="row footer">

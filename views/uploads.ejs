@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+	<title>Upload here</title>
+</head>
+<body>
+
+<% if(authorised){ %>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-4">
+			<p>All uploads require you to fill in the fields: Title, What file you're uploading and Description. Other fields are based on what you're uploading on top of required fields, these are below:</p>
+			<p>Link: Link & Section</p>			
+			<p>PDF: Upload File & Section</p>		
+			<p>Image & Video: Upload File</p>
+		</div>
+		<div class="col-xs-8">
+			<form name="uploadForm">
+				<div>
+					<label for="a.type">Select what you are uploading</label>
+					<select ng-model="a.type">
+						<option value="link">Link</option>
+						<option value="PDF">PDF</option>
+						<option value="image">Image</option>
+						<option value="video">Video</option>
+					</select>
+				</div>
+				<div>
+					<label for="a.title">Title</label>
+					<input type="text" class="form-control" ng-model="a.title">
+				</div>
+				<div>
+					<label for="a.desc">Description</label>
+					<input type="text" class="form-control" ng-model="a.desc">
+				</div>
+				<div>
+					<label for="a.link">Link</label>
+					<input type="text" class="form-control" ng-model="a.link">
+				</div>
+				<div>
+					<label for="a.section">Section</label>
+					<select ng-model="a.section">
+						<option value="loc">Local</option>
+						<option value="reg">Regional</option>
+						<option value="nat">National</option>
+						<option value="int">International</option>
+					</select>
+				</div>
+				<div>
+					<label for="fileUpload">Upload File (Video, Image, PDF)</label>
+					<input type="file" name="fileUpload">
+				</div>
+				<div>
+					<input type="submit" value="Upload" ng-click="uploadArticle()">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<% } else { %>
+
+<p> Not authorised </p>
+
+<% } %>
+<p>Please enter the password in order to go to the uploads page</p>
+<form action="/uploads" method="post">
+	<input type="password" name="secret">
+	<input type="submit" value="Authorise">
+</form>
+
+</body>
+</html>
