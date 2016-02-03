@@ -1,4 +1,4 @@
-var app = angular.module('portfolio', ['ngRoute', 'fs']);
+var app = angular.module('portfolio', ['ngRoute']);
 
 app.config(function($routeProvider){
     $routeProvider
@@ -16,12 +16,7 @@ app.config(function($routeProvider){
         })
         .when('/articles', {
             templateUrl: 'articles.html',
-            controller: 'articlesCtrl',
-            resolve: {
-                postPromise: ['MediaService', function(MediaService){
-                    return MediaService.get('/articles');
-                }]
-            }
+            controller: 'articlesCtrl'
         })
         .otherwise({ redirectTo: '/home' });
 });
@@ -53,25 +48,19 @@ app.controller('homeCtrl', function($scope, $route){
     $scope.readMore = false;
 });
 
-app.controller('contactCtrl', function($scope){
+app.controller('contactCtrl', function($scope, MediaService){
+$scope.text = '', $scope.name = "";
 
     $scope.submit = function()
     {
         var mail = {
-            from: $scope.name + "<" + $scope.email + ">",
-            //to: "tony.leliw@sky.com",
-            to: "alex.batoryk.leliw@hotmail.com",
-            subject: $scope.subject,
-            text: $scope.moreinfo
+            name: $scope.name,
+            email: $scope.email,
+            text: $scope.text
         };
-
-        smtpTransport.sendMail(mail, function(err, res){
-            if(err)
-                console.log(err);
-            else
-                console.log("Message sent: " + res.message);
-            
-            smtpTransport.close();
+console.log($scope);
+        MediaService.post('/contact', mail).success(function(){
+            $scope.submitted = true;
         });
     }
 });
@@ -156,7 +145,7 @@ app.controller('uploadCtrl', function($scope, MediaService, fs, UsersApi){
                 console.log(err);
             
             // If successful read of file, write the file into folder
-            var newPath = __dirname + '/assets/' + type + '/' + ;
+            var newPath = __dirname + '/assets/' + type + '/' + req.files.fileUpload.name;
             fs.writeFile(newPath, data, function(err){
                 if(err)
                     return next(err);

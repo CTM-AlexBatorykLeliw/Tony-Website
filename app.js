@@ -5,9 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require('fs');
-// Module and variable for Mailer
-var nodemailer = require("nodemailer");
-var transporter = nodemailer.createTransport('smtps://ctmalexbatorykleliw%40gmail.com:ntR759Cf@smtp.gmail.com');
 // Modules for MongoDB
 var mongoose = require('mongoose');
 require('./models/Assets');

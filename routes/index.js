@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var nodemailer = require('nodemailer');
 var mongoose = require('mongoose');
 var Asset = mongoose.model('Assets');
+// Module and variable for Mailer
+var nodemailer = require("nodemailer");
 
 /* GET the Main page of the site. This is where we host all the partials */
 router.get('/', function(req, res, next){
@@ -100,5 +101,31 @@ router.delete('/uploads/:asset_id', function(req, res, next){
 		});
 	});
 });
+
+/************************** CONTACT *****************************/
+
+/* Send email using the form */
+router.post('/contact', function(req, res, next){
+	var transporter = nodemailer.createTransport('smtps://ctmalexbatorykleliw%40gmail.com:ntR759Cf@smtp.gmail.com');
+
+	var mail = {
+		from: req.body.name + ' <' + req.body.email + '>',
+		to: "alex.batoryk.leliw@hotmail.com",
+		subject: "Message from the website",
+		text: req.body.text
+	};
+console.log(req.body, mail);
+	// transporter.sendMail(mail, function(err, res){
+ //        if(err)
+ //            return next(err);
+
+ //        console.log(res);
+ //        transporter.close();
+ //    });
+
+    res.json("email sent");
+});
+
+        
 
 module.exports = router;
