@@ -9,7 +9,7 @@ var AssetSchema = new Schema({
 	desc: String, // Description of an asset
 	link: String, // Link if the asset locates to external site
 	section: String, // Section will either be loc, reg, nat, int
-	type: String, // Type will either be image, link, PDF, video
+	type: String, // Type will either be image, link, PDF, video, audio
 	created_at: Date,
 	updated_at: Date, 
 	path: String // For getting the path of an image

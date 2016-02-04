@@ -49,7 +49,6 @@ app.controller('homeCtrl', function($scope, $route){
 });
 
 app.controller('contactCtrl', function($scope, MediaService){
-$scope.text = '', $scope.name = "";
 
     $scope.submit = function()
     {
@@ -57,7 +56,7 @@ $scope.text = '', $scope.name = "";
             name: $scope.name,
             email: $scope.email,
             text: $scope.text
-        };
+        }; // Fix this later, text and name not pulling through
 console.log($scope);
         MediaService.post('/contact', mail).success(function(){
             $scope.submitted = true;
@@ -82,8 +81,11 @@ app.controller('articlesCtrl',  function($scope, $window, MediaService){
 
 });
 
-app.controller('mediaCtrl', function($scope){
-    $scope.images = MediaService.get('/');
+app.controller('mediaCtrl', function($scope, MediaService){
+    $scope.images = MediaService.get('/media/images');
+    $scope.videos = MediaService.get('/media/videos');
+    $scope.audio = MediaService.get('/media/audio');
+    console.log($scope.images);
 });
 
 app.controller('uploadCtrl', function($scope, MediaService, fs, UsersApi){
@@ -100,7 +102,7 @@ app.controller('uploadCtrl', function($scope, MediaService, fs, UsersApi){
         };
 
         MediaService.post('/uploads', asset).success(function(){
-            console.log("Link uploaded");
+            alert("Link uploaded");
         });
     }
 
@@ -116,26 +118,15 @@ app.controller('uploadCtrl', function($scope, MediaService, fs, UsersApi){
         uploadFile('PDF');
     }
 
-    $scope.uploadImage = function()
+    $scope.uploadMedia = function(type)
     {
         var asset = {
             title: $scope.a.title,
             desc: $scope.a.desc,
-            type: 'image'
+            type: type
         };
 
-        uploadFile('image');
-    }
-
-    $scope.uploadVideo = function()
-    {
-        var asset = {
-            title: $scope.a.title,
-            desc: $scope.a.desc,
-            type: 'video'
-        };
-
-        uploadFile('video');
+        uploadFile(type);
     }
 
     function uploadFile(type)
@@ -153,7 +144,7 @@ app.controller('uploadCtrl', function($scope, MediaService, fs, UsersApi){
                 // If the write of file is successful, add path and send info to DB
                 asset.path = newPath;
                 MediaService.post('/uploads', asset).success(function(){
-                    console.log(type + " Upload Complete");
+                    alert(type + " Upload Complete");
                 });
             });
         });

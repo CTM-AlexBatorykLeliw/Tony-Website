@@ -12,7 +12,7 @@
 			<p>All uploads require you to fill in the fields: Title, What file you're uploading and Description. Other fields are based on what you're uploading on top of required fields, these are below:</p>
 			<p>Link: Link & Section</p>			
 			<p>PDF: Upload File & Section</p>		
-			<p>Image & Video: Upload File</p>
+			<p>Image & Video & Audio: Upload File</p>
 		</div>
 		<div class="col-xs-8">
 			<form name="uploadForm">
@@ -23,6 +23,7 @@
 						<option value="PDF">PDF</option>
 						<option value="image">Image</option>
 						<option value="video">Video</option>
+						<option value="video">Audio</option>
 					</select>
 				</div>
 				<div>
@@ -47,11 +48,16 @@
 					</select>
 				</div>
 				<div>
-					<label for="fileUpload">Upload File (Video, Image, PDF)</label>
+					<label for="fileUpload">Upload File (Video, Image, PDF, Audio)</label>
 					<input type="file" name="fileUpload">
 				</div>
 				<div>
-					<input type="submit" value="Upload" ng-click="uploadArticle()">
+					<p>Select the upload button corresponding to the asset</p>
+					<input type="submit" value="Upload Link" ng-click="uploadLink()">
+					<input type="submit" value="Upload PDF" ng-click="uploadPDF()">
+					<input type="submit" value="Upload Image" ng-click="uploadMedia('image')">
+					<input type="submit" value="Upload Video" ng-click="uploadMedia('video')">
+					<input type="submit" value="Upload Audio" ng-click="uploadMedia('audio')">
 				</div>
 			</form>
 		</div>

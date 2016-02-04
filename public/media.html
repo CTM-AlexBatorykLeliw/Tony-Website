@@ -1,14 +1,18 @@
+<link rel="stylesheet" href="modules/blueimp-gallery/css/blueimp-gallery.min.css">
 <div class="col-xs-12">
 	<div class="row">
-		<div class="col-xs-6">
-			<a class="nav" href="#/media/images">Images</a>
+		<div class="col-xs-4">
+			<a class="nav center" ng-click="">Images</a>
 		</div>
-		<div class="col-xs-6">
-			<a class="nav" href="#/media/videos">Videos</a>
+		<div class="col-xs-4">
+			<a class="nav center" ng-click="">Videos</a>
+		</div>		
+		<div class="col-xs-4">
+			<a class="nav center" ng-click="">Audio</a>
 		</div>
 	</div>
 	<div class="row">
-<!-- 			<div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
+			<div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
 		    	<div class="slides"></div>
 			    <h3 class="title"></h3>
 			    <a class="prev">‹</a>
@@ -16,23 +20,22 @@
 			    <a class="play-pause"></a>
 			    <ol class="indicator"></ol>
 			</div>
-			<div id="links">
-			    <a href="images/banana.jpg" title="Banana">
-			        <img src="images/thumbnails/banana.jpg" alt="Banana">
+			<div id="links" ng-repeat="x in images">
+			    <a href="{{images.path}}" title="{{images.title}}">
+			        <img src="{{images.path}}" alt="{{images.title}}">
 			    </a>
-			    <a href="images/apple.jpg" title="Apple">
-			        <img src="images/thumbnails/apple.jpg" alt="Apple">
-			    </a>
-			    <a href="images/orange.jpg" title="Orange">
-			        <img src="images/thumbnails/orange.jpg" alt="Orange">
-			    </a>
-			</div> -->
-		<div class="col-xs-12">
-		</div>
+			</div>
 	</div>
 </div>
 <script src="modules/blueimp-gallery/js/blueimp-gallery.min.js"></script>
 <script>
+blueimp.Gallery(
+    document.getElementById('links').getElementsByTagName('a'),
+    {
+        container: '#blueimp-gallery-carousel',
+        carousel: true
+    }
+);
 document.getElementById('links').onclick = function(event){
     event = event || window.event;
     var target = event.target || event.srcElement,

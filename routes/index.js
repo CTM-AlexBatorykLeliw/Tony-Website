@@ -10,6 +10,8 @@ router.get('/', function(req, res, next){
 	res.render('index');
 });
 
+
+/************************** UPLOADS *****************************/
 /* AUTHENTICATION FOR THE UPLOADS PAGE */
 router.post('/uploads', function(req, res, next){
 	var secret = req.body.secret;
@@ -32,10 +34,31 @@ router.get('/uploads', function(req, res, next){
 	res.render('uploads', user);
 });
 
+
 /************************** MEDIA *****************************/
-/* GET all media (images and videos) */
-router.get('/media', function(req, res, next, assetType){
-	Asset.find({ section: 'media'}, function(err, assets){
+/* GET all images */
+router.get('/media/images', function(req, res, next){
+	Asset.find({ type: 'images'}, function(err, assets){
+		if(err)
+			return next(err);
+
+		res.json(assets);
+	});
+});
+
+/* GET all videos */
+router.get('/media/videos', function(req, res, next){
+	Asset.find({ type: 'videos'}, function(err, assets){
+		if(err)
+			return next(err);
+
+		res.json(assets);
+	});
+});
+
+/* GET all audio */
+router.get('/media/audio', function(req, res, next){
+	Asset.find({ type: 'audio'}, function(err, assets){
 		if(err)
 			return next(err);
 
@@ -66,7 +89,7 @@ router.get('/articles/PDFs', function(req, res, next){
 
 /************************** UPLOADS *****************************/
 /* GET all assets */
-router.get('/uploads', function(req, res, next){
+router.get('/uploads/assets', function(req, res, next){
 	Asset.find(function(err, assets){
 		if(err)
 			return next(err);
@@ -76,7 +99,7 @@ router.get('/uploads', function(req, res, next){
 });
 
 /* POST Asset into DB */
-router.post('/uploads', function(req, res, next){
+router.post('/uploads/assets', function(req, res, next){
 	var asset = new Asset(req.body);
 
 	asset.save(function(err, asset){
