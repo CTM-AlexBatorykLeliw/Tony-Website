@@ -2,6 +2,17 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var Asset = mongoose.model('Assets');
+// File upload
+var multer = require('multer');
+var storage = multer.diskStorage({
+	destination: function(req, file, cb){
+		cb(null, './assets/PDFs/')
+	},
+	filename: function(req, file, cb){
+		cb(null, file.originalname + '-' + Date.now() + '.pdf')
+	}
+});
+var upload = multer({ storage: storage });
 // Module and variable for Mailer
 var nodemailer = require("nodemailer");
 
@@ -99,7 +110,7 @@ router.get('/uploads/assets', function(req, res, next){
 });
 
 /* POST Asset into DB */
-router.post('/uploads/assets', function(req, res, next){
+router.post('/uploads/links', function(req, res, next){
 	var asset = new Asset(req.body);
 
 	asset.save(function(err, asset){
@@ -109,6 +120,32 @@ router.post('/uploads/assets', function(req, res, next){
 		res.json(asset);
 	});
 });
+
+/* POST file into DB and write file into folder */
+router.post('/uploads/files', upload.single('file'));
+
+
+
+
+
+	// console.log(req);
+	// fs.readFile(req.body.path, function(err, data){
+	//     if(err)
+	//         console.log(err);
+	    
+	//     // If successful read of file, write the file into folder
+	//     var newPath = __dirname + '/assets/' + type + '/' + req.files.fileUpload.name;
+	//     fs.writeFile(newPath, data, function(err){
+	//         if(err)
+	//             return next(err);
+
+	//         // If the write of file is successful, add path and send info to DB
+	//         asset.path = newPath;
+	//         MediaService.post('/uploads', asset).success(function(){
+	//             alert(type + " Upload Complete");
+	//         });
+	//     });
+	// });
 
 /* DELETE asset */
 router.delete('/uploads/:asset_id', function(req, res, next){

@@ -66,16 +66,21 @@ console.log($scope);
 
 app.controller('articlesCtrl',  function($scope, $window, MediaService){
 
-    var links = MediaService.get('/articles/links');
-    var PDFs = MediaService.get('/articles/PDFs');
+    $scope.section = "!!";
+    $scope.pdf = true, $scope.link = true;
+    $pdfChecked = $scope.pdfCheck && $scope.PDFs.length == 0;
+    MediaService.get('/articles/links').success(function(data){
+        $scope.links = data;
+    });
+    MediaService.get('/articles/PDFs').success(function(data){
+        $scope.PDFs = data;
+    });
 
-    $scope.linkCheck = true, $scope.PDFCheck = true;
-
-    $scope.actionArticle = function(id, type)
+    $scope.click = function(id, type)
     {
-        if(type)
+        if(type) // For links
             $window.open('http://' + $scope.links[id].link,'_blank');
-        else
+        else // For PDF's
             $window.open($scope.PDFs[id].path, '_blank');
     }
 
@@ -88,7 +93,7 @@ app.controller('mediaCtrl', function($scope, MediaService){
     console.log($scope.images);
 });
 
-app.controller('uploadCtrl', function($scope, MediaService, fs, UsersApi){
+app.controller('uploadCtrl', function($scope, MediaService, $http){
     $scope.a = {};
 
     $scope.uploadLink = function()
@@ -101,7 +106,7 @@ app.controller('uploadCtrl', function($scope, MediaService, fs, UsersApi){
             type: 'link'
         };
 
-        MediaService.post('/uploads', asset).success(function(){
+        MediaService.post('/uploads/links', asset).success(function(){
             alert("Link uploaded");
         });
     }
@@ -112,13 +117,14 @@ app.controller('uploadCtrl', function($scope, MediaService, fs, UsersApi){
             title: $scope.a.title,
             desc: $scope.a.desc,
             type: 'PDF',
-            section: $scope.a.section
+            section: $scope.a.section,
+            path: $scope.a.path
         };
-
-        uploadFile('PDF');
+        console.log($scope.a.path);
+        //uploadFile(asset);
     }
 
-    $scope.uploadMedia = function(type)
+    $scope.uploadFile = function(type)
     {
         var asset = {
             title: $scope.a.title,
@@ -126,27 +132,26 @@ app.controller('uploadCtrl', function($scope, MediaService, fs, UsersApi){
             type: type
         };
 
-        uploadFile(type);
+        var file = $scope.myFile;
+        var fd = new FormData();
+        //fd.append('file', file);
+console.log(file, fd);
+        // $http.post('/uploads/files', fd, {
+        //     transformRequest: angular.identity,
+        //     headers: {'Content-Type': undefined}
+        // })
+        // .success(function(){
+        //     console.log('success');
+        // })
+        // .error(function(err){
+        //     console.log(err);
+        // });
     }
 
-    function uploadFile(type)
+    function uploadFile(asset)
     {
-        fs.readFile(req.files.fileUpload.path, function(err, data){
-            if(err)
-                console.log(err);
-            
-            // If successful read of file, write the file into folder
-            var newPath = __dirname + '/assets/' + type + '/' + req.files.fileUpload.name;
-            fs.writeFile(newPath, data, function(err){
-                if(err)
-                    return next(err);
-
-                // If the write of file is successful, add path and send info to DB
-                asset.path = newPath;
-                MediaService.post('/uploads', asset).success(function(){
-                    alert(type + " Upload Complete");
-                });
-            });
+        MediaService.post('/uploads/files', asset).success(function(){
+            alert("Asset uploaded");
         });
     }
 
