@@ -16,12 +16,20 @@ app.config(function($routeProvider){
         })
         .when('/articles', {
             templateUrl: 'articles.html',
-            controller: 'articlesCtrl'
+            controller: 'articlesCtrl',
+            resolve: {
+                links: function(httpService){
+                    return httpService.get('/articles/links');
+                },
+                PDFs: function(httpService){
+                    return httpService.get('/articles/PDFs');
+                }
+            }
         })
         .otherwise({ redirectTo: '/home' });
 });
 
-app.service('MediaService', function($http){
+app.service('httpService', function($http){
 
     this.get = function(url)
     {
@@ -48,33 +56,33 @@ app.controller('homeCtrl', function($scope, $route){
     $scope.readMore = false;
 });
 
-app.controller('contactCtrl', function($scope, MediaService){
+app.controller('contactCtrl', function($scope, httpService){
+    $scope.a = {};
 
     $scope.submit = function()
     {
         var mail = {
-            name: $scope.name,
-            email: $scope.email,
-            text: $scope.text
-        }; // Fix this later, text and name not pulling through
-console.log($scope);
-        MediaService.post('/contact', mail).success(function(){
+            name: $scope.a.name,
+            email: $scope.a.email,
+            text: $scope.a.text
+        };
+
+        httpService.post('/contact', mail).success(function(){
             $scope.submitted = true;
         });
     }
 });
 
-app.controller('articlesCtrl',  function($scope, $window, MediaService){
+app.controller('articlesCtrl',  function($scope, $window, links, PDFs){
 
     $scope.section = "!!";
     $scope.pdf = true, $scope.link = true;
-    $pdfChecked = $scope.pdfCheck && $scope.PDFs.length == 0;
-    MediaService.get('/articles/links').success(function(data){
-        $scope.links = data;
-    });
-    MediaService.get('/articles/PDFs').success(function(data){
-        $scope.PDFs = data;
-    });
+    // httpService.get('/articles/links').success(function(data){
+    //     $scope.links = data;
+    // });
+    // httpService.get('/articles/PDFs').success(function(data){
+    //     $scope.PDFs = data;
+    // });
 
     $scope.click = function(id, type)
     {
@@ -86,14 +94,19 @@ app.controller('articlesCtrl',  function($scope, $window, MediaService){
 
 });
 
-app.controller('mediaCtrl', function($scope, MediaService){
-    $scope.images = MediaService.get('/media/images');
-    $scope.videos = MediaService.get('/media/videos');
-    $scope.audio = MediaService.get('/media/audio');
-    console.log($scope.images);
+app.controller('mediaCtrl', function($scope, httpService){
+    httpService.get('/media/images').success(function(data){
+        $scope.images = data;console.log($scope.images);
+    });    
+    httpService.get('/media/videos').success(function(data){
+        $scope.videos = data;
+    });    
+    httpService.get('/media/audio').success(function(data){
+        $scope.audio = data;
+    });
 });
 
-app.controller('uploadCtrl', function($scope, MediaService, $http){
+app.controller('uploadCtrl', function($scope, httpService){
     $scope.a = {};
 
     $scope.uploadLink = function()
@@ -106,7 +119,7 @@ app.controller('uploadCtrl', function($scope, MediaService, $http){
             type: 'link'
         };
 
-        MediaService.post('/uploads/links', asset).success(function(){
+        httpService.post('/uploads/links', asset).success(function(){
             alert("Link uploaded");
         });
     }
@@ -132,32 +145,19 @@ app.controller('uploadCtrl', function($scope, MediaService, $http){
             type: type
         };
 
-        var file = $scope.myFile;
-        var fd = new FormData();
-        //fd.append('file', file);
-console.log(file, fd);
-        // $http.post('/uploads/files', fd, {
-        //     transformRequest: angular.identity,
-        //     headers: {'Content-Type': undefined}
-        // })
-        // .success(function(){
-        //     console.log('success');
-        // })
-        // .error(function(err){
-        //     console.log(err);
-        // });
+        // Upload code here
     }
 
     function uploadFile(asset)
     {
-        MediaService.post('/uploads/files', asset).success(function(){
+        httpService.post('/uploads/files', asset).success(function(){
             alert("Asset uploaded");
         });
     }
 
     $scope.delete = function(id)
     {
-        MediaService.delete(id).success(function(){
+        httpService.delete(id).success(function(){
             console.log("Asset Deleted");
         });
     }

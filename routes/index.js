@@ -3,16 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Asset = mongoose.model('Assets');
 // File upload
-var multer = require('multer');
-var storage = multer.diskStorage({
-	destination: function(req, file, cb){
-		cb(null, './assets/PDFs/')
-	},
-	filename: function(req, file, cb){
-		cb(null, file.originalname + '-' + Date.now() + '.pdf')
-	}
-});
-var upload = multer({ storage: storage });
+
 // Module and variable for Mailer
 var nodemailer = require("nodemailer");
 
@@ -20,7 +11,6 @@ var nodemailer = require("nodemailer");
 router.get('/', function(req, res, next){
 	res.render('index');
 });
-
 
 /************************** UPLOADS *****************************/
 /* AUTHENTICATION FOR THE UPLOADS PAGE */
@@ -44,7 +34,6 @@ router.get('/uploads', function(req, res, next){
 	};
 	res.render('uploads', user);
 });
-
 
 /************************** MEDIA *****************************/
 /* GET all images */
@@ -122,8 +111,10 @@ router.post('/uploads/links', function(req, res, next){
 });
 
 /* POST file into DB and write file into folder */
-router.post('/uploads/files', upload.single('file'));
 
+// router.post('/uploads/files', function(req, res, next){
+// 	uploadImage: function()
+// });
 
 
 
@@ -163,7 +154,6 @@ router.delete('/uploads/:asset_id', function(req, res, next){
 });
 
 /************************** CONTACT *****************************/
-
 /* Send email using the form */
 router.post('/contact', function(req, res, next){
 	var transporter = nodemailer.createTransport('smtps://ctmalexbatorykleliw%40gmail.com:ntR759Cf@smtp.gmail.com');
@@ -174,14 +164,13 @@ router.post('/contact', function(req, res, next){
 		subject: "Message from the website",
 		text: req.body.text
 	};
-console.log(req.body, mail);
-	// transporter.sendMail(mail, function(err, res){
- //        if(err)
- //            return next(err);
 
- //        console.log(res);
- //        transporter.close();
- //    });
+	transporter.sendMail(mail, function(err, res){
+        if(err)
+            return next(err);
+
+        transporter.close();
+    });
 
     res.json("email sent");
 });

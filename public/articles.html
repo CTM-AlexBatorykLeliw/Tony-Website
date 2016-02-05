@@ -14,10 +14,10 @@
 			</select>
 		</div>
 		<div class="col-xs-2">
-			<label class="articles"><input type="checkbox" class="cursor" ng-model="link"> Links</label>
+			<label class="articles"><input type="checkbox" class="cursor" ng-model="link" ng-init="link=true"> Links</label>
 		</div>
 		<div class="col-xs-2">
-			 <label class="articles"><input type="checkbox" class="cursor" ng-model="pdf"> PDFs</label>
+			 <label class="articles"><input type="checkbox" class="cursor" ng-model="pdf" ng-init="pdf=true"> PDFs</label>
 		</div>
 		<div class="col-xs-3">
 			<input type="text" ng-model="searchStr" placeholder="Search" class="form-control">
@@ -41,7 +41,7 @@
 			PDFs
 		</div>
 		<div class="col-xs-12 padding-bottom" ng-repeat="x in PDFs | filter:searchStr | filter:section">
-			<button ng-click="click($index, false)" type="button" class="btn btn-default btn-lg btn-block article" title="Click to Save">
+			<button ng-click="click($index, false)" type="button" class="btn btn-default btn-lg btn-block article" title="Click to View">
 				<u>{{ x.title }}</u>
 				<br/> 
 				{{ x.desc }}

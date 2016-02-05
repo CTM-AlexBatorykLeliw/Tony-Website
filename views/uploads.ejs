@@ -5,7 +5,8 @@
 <script src="modules/angular/angular.min.js"></script>
 <script src="modules/angular-route/angular-route.min.js"></script>
 <script src="javascripts/controllers.js"></script>
-<script src="javascripts/directives.js"></script>
+<script src="modules/angular-file-upload/dist/angular-file-upload.min.js"></script>
+<script src="modules/angular-file-upload-shim/dist/angular-file-upload-shim.min.js"></script>
 	<title>Upload here</title>
 </head>
 <body ng-app="portfolio">
@@ -60,7 +61,7 @@
 			</div>
 			<div>
 				<label for="fileUpload">Upload File (Video, Image, PDF, Audio)</label>
-				<input type="file" file-model="myFile">
+				<input type="file" ng-file-select="fileSelected($files)">
 			</div>
 			<div>
 				<p>Select the upload button corresponding to the asset</p>
@@ -69,6 +70,9 @@
 				<input type="submit" value="Upload Image" ng-click="uploadMedia('image')">
 				<input type="submit" value="Upload Video" ng-click="uploadMedia('video')">
 				<input type="submit" value="Upload Audio" ng-click="uploadMedia('audio')">
+				<button class="btn btn-default" ng-file-select ng-file-change="upload($files)" ng-multiple="multiple">
+			      Upload Image
+			        </button>
 			</div>
 		</div>
 	</div>

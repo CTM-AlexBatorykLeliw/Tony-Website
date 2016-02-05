@@ -6,23 +6,23 @@
 			For any enquiries or more information, you can get in contact with me here:
 		</div>
 		<div class="col-xs-12">
-		<form data-toggle="validator" role="form" ng-submit="submit()">
+		<form data-toggle="validator" name="form" ng-submit="submit(form)">
 			<!-- Name field -->
 			<div class="form-group">
 				<label for="name">Name <span class="star">*</span></label>
-				<input type="text" class="form-control" ng-model="name" data-error="Required" ng-pattern="/^[A-Za-z]$/g" required>
+				<input type="text" class="form-control" ng-model="a.name" data-error="Required" ng-pattern="/^[a-zA-Z ]+$/" required>
 				<div class="help-block with-errors"></div>
 			</div>
 			<!-- Email field -->
 			<div class="form-group">
 				<label for="email">Email <span class="star">*</span></label>
-				<input type="email" class="form-control" ng-model="email" data-error="Please enter a valid email" required>
+				<input type="email" class="form-control" ng-model="a.email" data-error="Please enter a valid email" required>
 				<div class="help-block with-errors"></div>
 			</div>
 			<!-- Message field -->
 			<div class="form-group">
 				<label for="moreinfo">Enter your message here <span class="star">*</span></label>
-				<textarea ng-pattern="/^[A-Za-z]$/g" class="form-control" ng-model="text" data-error="Required" required></textarea>
+				<textarea ng-pattern="/^[a-zA-Z ]+$/" class="form-control" ng-model="a.text" data-error="Required" required ng-keyup="do()"></textarea>
 				<div class="help-block with-errors"></div>
 			</div>
 			<!-- Submit form button -->
