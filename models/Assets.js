@@ -12,7 +12,8 @@ var AssetSchema = new Schema({
 	type: String, // Type will either be image, link, PDF, video, audio
 	created_at: Date,
 	updated_at: Date, 
-	path: String // For getting the path of an image
+	path: String, // For getting the path of an image
+	folder: String // Image folder
 });
 
 AssetSchema.pre('save', function(next){

@@ -3,19 +3,45 @@ var app = angular.module('portfolio', ['ngRoute']);
 app.config(function($routeProvider){
     $routeProvider
         .when('/home', {
-            templateUrl: 'home.html',
+            templateUrl: 'partials/home.html',
             controller: 'homeCtrl'
         })
         .when('/media', {
-            templateUrl: 'media.html',
-            controller: 'mediaCtrl'
+            templateUrl: 'partials/media.html'
+        })
+        .when('/media/images', {
+            templateUrl: 'partials/media/images.html',
+            controller: 'imageCtrl',
+            resolve: {
+                images: function(httpService){
+                    return httpService.get('/media/images');
+                }
+            }
+        })        
+        .when('/media/audio', {
+            templateUrl: 'partials/media/audio.html',
+            controller: 'audioCtrl',
+            resolve: {
+                audio: function(httpService){
+                    return httpService.get('/media/audio');
+                }
+            }
+        })        
+        .when('/media/videos', {
+            templateUrl: 'partials/media/videos.html',
+            controller: 'videoCtrl',
+            resolve: {
+                videos: function(httpService){
+                    return httpService.get('/media/videos');
+                }
+            }
         })
         .when('/contact', {
-            templateUrl: 'contact.html',
+            templateUrl: 'partials/contact.html',
             controller: 'contactCtrl'
         })
         .when('/articles', {
-            templateUrl: 'articles.html',
+            templateUrl: 'partials/articles.html',
             controller: 'articlesCtrl',
             resolve: {
                 links: function(httpService){
@@ -77,12 +103,8 @@ app.controller('articlesCtrl',  function($scope, $window, links, PDFs){
 
     $scope.section = "!!";
     $scope.pdf = true, $scope.link = true;
-    // httpService.get('/articles/links').success(function(data){
-    //     $scope.links = data;
-    // });
-    // httpService.get('/articles/PDFs').success(function(data){
-    //     $scope.PDFs = data;
-    // });
+    $scope.links = links.data;
+    $scope.PDFs = PDFs.data;
 
     $scope.click = function(id, type)
     {
@@ -94,64 +116,86 @@ app.controller('articlesCtrl',  function($scope, $window, links, PDFs){
 
 });
 
-app.controller('mediaCtrl', function($scope, httpService){
-    httpService.get('/media/images').success(function(data){
-        $scope.images = data;console.log($scope.images);
-    });    
-    httpService.get('/media/videos').success(function(data){
-        $scope.videos = data;
-    });    
-    httpService.get('/media/audio').success(function(data){
-        $scope.audio = data;
-    });
+app.controller('imageCtrl', function($scope, images){
+    $scope.folders = {};
+    for(var i = 0; i < images.data.length; i++)
+    {
+        var image = images.data[i];
+        var flag = image.folder;
+        var keys = [];
+        for(var k in $scope.folders)
+            keys.push(k);
+        for(var j = 0; j < keys.length; j++)
+        {
+            if($scope.folders[j] == images.data[i].folder)
+                flag = '';
+        }
+        // if(flag != '')
+             $scope.folders[flag] = [];
+console.log(image);
+        $scope.folders[flag].push(image);
+    }
+    console.log($scope.folders);
+});
+
+app.controller('videoCtrl', function($scope, videos, $sce){
+    //$scope.videos = videos.data;
+    $scope.videos = [
+    {path: "assets/video/video.mp4", title: "Tony Play"},
+    {path: "assets/video/video2.mp4", title: "Tony Play"}
+    ];
+    $scope.path = "assets/video/video.mp4";
+    $scope.title = "Tony Play";
+});
+
+app.controller('audioCtrl', function($scope, audio){
+    $scope.audio = audio.data;
 });
 
 app.controller('uploadCtrl', function($scope, httpService){
     $scope.a = {};
 
-    $scope.uploadLink = function()
+    $scope.add = function()
     {
-        var asset = {
-            title: $scope.a.title,
-            desc: $scope.a.desc,
-            link: $scope.a.link,
-            section: $scope.a.section,
-            type: 'link'
-        };
+        var asset = { type: $scope.a.type };
+        if(asset.type == 'link')
+        {
+            asset.title = $scope.a.title,
+            asset.desc = $scope.a.desc,
+            asset.link = $scope.a.link,
+            asset.section = $scope.a.section
+        }
+        else if(asset.type == 'PDF')
+        {
+            asset.title = $scope.a.title,
+            asset.desc = $scope.a.desc,
+            asset.path = 'assets/PDF/' + $scope.a.name,
+            asset.section = $scope.a.section
+        }
+        else
+        {
+            if(asset.type == 'audio')
+                asset.path = 'assets/audio/' + $scope.a.name;
+            else if(asset.type == 'video')
+                asset.path = 'assets/video/' + $scope.a.name;
+            else if(asset.type == 'image')
+            {
+                asset.folder = $scope.a.folder;
+                asset.path = 'assets/image/' + asset.folder + '/' + $scope.a.name;
+            }
 
-        httpService.post('/uploads/links', asset).success(function(){
-            alert("Link uploaded");
-        });
+            asset.title = $scope.a.title
+
+        }
+
+        $scope.a = {};
+        addtoDB(asset);
     }
 
-    $scope.uploadPDF = function()
+    function addtoDB(asset)
     {
-        var asset = {
-            title: $scope.a.title,
-            desc: $scope.a.desc,
-            type: 'PDF',
-            section: $scope.a.section,
-            path: $scope.a.path
-        };
-        console.log($scope.a.path);
-        //uploadFile(asset);
-    }
-
-    $scope.uploadFile = function(type)
-    {
-        var asset = {
-            title: $scope.a.title,
-            desc: $scope.a.desc,
-            type: type
-        };
-
-        // Upload code here
-    }
-
-    function uploadFile(asset)
-    {
-        httpService.post('/uploads/files', asset).success(function(){
-            alert("Asset uploaded");
+        httpService.post('/uploads/assets', asset).success(function(){
+            alert("Added");
         });
     }
 

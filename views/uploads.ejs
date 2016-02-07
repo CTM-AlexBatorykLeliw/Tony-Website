@@ -5,8 +5,6 @@
 <script src="modules/angular/angular.min.js"></script>
 <script src="modules/angular-route/angular-route.min.js"></script>
 <script src="javascripts/controllers.js"></script>
-<script src="modules/angular-file-upload/dist/angular-file-upload.min.js"></script>
-<script src="modules/angular-file-upload-shim/dist/angular-file-upload-shim.min.js"></script>
 	<title>Upload here</title>
 </head>
 <body ng-app="portfolio">
@@ -21,35 +19,30 @@
 <% if(authorised){ %>
 <div class="container" ng-controller="uploadCtrl">
 	<div class="row">
-		<div class="col-xs-4">
-			<p>All uploads require you to fill in the fields: Title, What file you're uploading and Description. Other fields are based on what you're uploading on top of required fields, these are below:</p>
-			<p>Link: Link & Section</p>			
-			<p>PDF: Upload File & Section</p>		
-			<p>Image & Video & Audio: Upload File</p>
-		</div>
 		<div class="col-xs-8">
 			<div>
-				<label for="a.type">Select what you are uploading</label>
+				<label for="a.type">What are you adding?</label>
 				<select ng-model="a.type">
-					<option value="link">Link</option>
+					<option value="link" selected>Link</option>
 					<option value="PDF">PDF</option>
 					<option value="image">Image</option>
 					<option value="video">Video</option>
-					<option value="video">Audio</option>
+					<option value="audio">Audio</option>
 				</select>
 			</div>
+			<div ng-model="link" ng-hide="a.type !== 'link'">
 			<div>
 				<label for="a.title">Title</label>
 				<input type="text" class="form-control" ng-model="a.title">
-			</div>
+			</div>	
 			<div>
 				<label for="a.desc">Description</label>
 				<input type="text" class="form-control" ng-model="a.desc">
-			</div>
+			</div>	
 			<div>
-				<label for="a.link">Link</label>
-				<input type="text" class="form-control" ng-model="a.link">
-			</div>
+				<label for="a.link">Link (include the www.)</label>
+				http://<input type="text" class="form-control" ng-model="a.link">
+			</div>			
 			<div>
 				<label for="a.section">Section</label>
 				<select ng-model="a.section">
@@ -58,21 +51,70 @@
 					<option value="nat">National</option>
 					<option value="int">International</option>
 				</select>
-			</div>
+			</div>					
+			</div>			
+			<div ng-model="PDF" ng-hide="a.type !== 'PDF'">
 			<div>
-				<label for="fileUpload">Upload File (Video, Image, PDF, Audio)</label>
-				<input type="file" ng-file-select="fileSelected($files)">
-			</div>
+				<label for="a.title">Title</label>
+				<input type="text" class="form-control" ng-model="a.title">
+			</div>	
 			<div>
-				<p>Select the upload button corresponding to the asset</p>
-				<input type="submit" value="Upload Link" ng-click="uploadLink()">
-				<input type="submit" value="Upload PDF" ng-click="uploadFile('PDF')">
-				<input type="submit" value="Upload Image" ng-click="uploadMedia('image')">
-				<input type="submit" value="Upload Video" ng-click="uploadMedia('video')">
-				<input type="submit" value="Upload Audio" ng-click="uploadMedia('audio')">
-				<button class="btn btn-default" ng-file-select ng-file-change="upload($files)" ng-multiple="multiple">
-			      Upload Image
-			        </button>
+				<label for="a.desc">Description</label>
+				<input type="text" class="form-control" ng-model="a.desc">
+			</div>	
+			<div>
+				<label for="a.desc">Name of asset (include file extention e.g. Example.pdf)</label>
+				<input type="text" class="form-control" ng-model="a.name">
+			</div>		
+			<div>
+				<label for="a.section">Section</label>
+				<select ng-model="a.section">
+					<option value="loc">Local</option>
+					<option value="reg">Regional</option>
+					<option value="nat">National</option>
+					<option value="int">International</option>
+				</select>
+			</div>					
+			</div>
+			<div ng-model="audio" ng-hide="a.type !== 'audio'">
+			<div>
+				<label for="a.title">Title</label>
+				<input type="text" class="form-control" ng-model="a.title">
+			</div>	
+			<div>
+				<label for="a.desc">Name of asset (include file extention e.g. Example.pdf)</label>
+				<input type="text" class="form-control" ng-model="a.name">
+			</div>	
+			</div>			
+			<div ng-model="image" ng-hide="a.type !== 'image'">
+			<div>
+				<label for="a.title">Title</label>
+				<input type="text" class="form-control" ng-model="a.title">
+			</div>	
+			<div>
+				<label for="a.desc">Name of asset (include file extention e.g. Example.pdf)</label>
+				<input type="text" class="form-control" ng-model="a.name">
+			</div>			
+			<div>
+				<label for="a.desc">Name of folder</label>
+				<input type="text" class="form-control" ng-model="a.folder">
+			</div>
+			</div>			
+			<div ng-model="video" ng-hide="a.type !== 'video'">
+			<div>
+				<label for="a.title">Title</label>
+				<input type="text" class="form-control" ng-model="a.title">
+			</div>	
+			<div>
+				<label for="a.desc">Name of asset (include file extention e.g. Example.pdf)</label>
+				<input type="text" class="form-control" ng-model="a.name">
+			</div>	
+			</div>
+
+			<div>
+				<button ng-click="add()">
+			    	Add
+			    </button>
 			</div>
 		</div>
 	</div>

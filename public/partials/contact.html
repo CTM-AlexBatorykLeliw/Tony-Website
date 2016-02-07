@@ -1,0 +1,39 @@
+<script src="modules/bootstrap-validator/js/validator.js"></script>
+<div class="mobile-text container">
+	<div ng-hide="submitted">
+		<div class="col-xs-12 padding-bottom padding-top">
+			For any enquiries or more information, you can get in contact with me here:
+		</div>
+		<div class="col-xs-12">
+		<form data-toggle="validator" name="form" ng-submit="submit(form)">
+			<!-- Name field -->
+			<div class="form-group">
+				<label for="name">Name <span class="star">*</span></label>
+				<input type="text" class="form-control" ng-model="a.name" data-error="Required" required maxlength="20">
+				<div class="help-block with-errors"></div>
+			</div>
+			<!-- Email field -->
+			<div class="form-group">
+				<label for="email">Email <span class="star">*</span></label>
+				<input type="email" class="form-control" ng-model="a.email" data-error="Please enter a valid email" required maxlength="40">
+				<div class="help-block with-errors"></div>
+			</div>
+			<!-- Message field -->
+			<div class="form-group">
+				<label for="moreinfo">Enter your message here <span class="star">*</span></label>
+				<textarea class="form-control" ng-model="a.text" data-error="Required" required maxlength="200"></textarea>
+				<div class="help-block with-errors"></div>
+			</div>
+			<!-- Submit form button -->
+			<div class="form-group" align="center">
+				<input type="submit" class="form-control submit btn btn-default" value="Submit">
+			</div>
+		</form>
+		</div>
+	</div>
+	<div class="row center" ng-show="submitted">
+		<div class="col-xs-12 padding-bottom">
+			Thank you for your message.
+		</div>
+	</div>
+</div>

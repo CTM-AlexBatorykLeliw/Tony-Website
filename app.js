@@ -7,7 +7,8 @@ var bodyParser = require('body-parser');
 // Modules for MongoDB
 var mongoose = require('mongoose');
 require('./models/Assets');
-mongoose.connect('mongodb://localhost/website');
+// Connection to MongoLab, they are hosting the mongoDB online. 500MB free
+mongoose.connect('mongodb://AlexBatorykLeliw:Kingducky2008@ds055855.mongolab.com:55855/tony-website');
 
 var routes = require('./routes/index');
 
