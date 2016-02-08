@@ -1,4 +1,4 @@
-var app = angular.module('portfolio', ['ngRoute']);
+var app = angular.module('portfolio', ['ngRoute','angular-spinkit']);
 
 app.config(function($routeProvider){
     $routeProvider
