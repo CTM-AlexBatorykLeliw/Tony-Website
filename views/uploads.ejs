@@ -63,7 +63,7 @@
 				<input type="text" class="form-control" ng-model="a.desc">
 			</div>	
 			<div>
-				<label for="a.desc">Name of asset (include file extention e.g. Example.pdf)</label>
+				<label for="a.name">Name of asset (include file extention e.g. Example.pdf)</label>
 				<input type="text" class="form-control" ng-model="a.name">
 			</div>		
 			<div>
@@ -82,7 +82,7 @@
 				<input type="text" class="form-control" ng-model="a.title">
 			</div>	
 			<div>
-				<label for="a.desc">Name of asset (include file extention e.g. Example.pdf)</label>
+				<label for="a.name">Name of asset (include file extention e.g. Example.pdf)</label>
 				<input type="text" class="form-control" ng-model="a.name">
 			</div>	
 			</div>			
@@ -92,7 +92,7 @@
 				<input type="text" class="form-control" ng-model="a.title">
 			</div>	
 			<div>
-				<label for="a.desc">Name of asset (include file extention e.g. Example.pdf)</label>
+				<label for="a.name">Name of asset (include file extention e.g. Example.pdf)</label>
 				<input type="text" class="form-control" ng-model="a.name">
 			</div>			
 			<div>
@@ -104,9 +104,13 @@
 			<div>
 				<label for="a.title">Title</label>
 				<input type="text" class="form-control" ng-model="a.title">
+			</div>				
+			<div>
+				<label for="a.desc">Description</label>
+				<input type="text" class="form-control" ng-model="a.desc">
 			</div>	
 			<div>
-				<label for="a.desc">Name of asset (include file extention e.g. Example.pdf)</label>
+				<label for="a.name">Name of asset (include file extention e.g. Example.pdf)</label>
 				<input type="text" class="form-control" ng-model="a.name">
 			</div>	
 			</div>
@@ -117,6 +121,14 @@
 			    </button>
 			</div>
 		</div>
+	</div>
+</div>
+<div class="container">
+	<p> If needing to delete anything, a list of everything is below. Just click the remove button and confirm.</p>
+	<div ng-repeat="x in assets">
+		<button ng-click="delete(x._id)">Remove</button>
+		Title: {{ x.title }}<br>
+		Description: {{x.desc}}
 	</div>
 </div>
 

@@ -1,5 +1,13 @@
-
-{{title}}
-<video width="400" ng-src="{{path}}" controls>
-	Your browser doesn't support
+<div class="side-bar">
+	<div class="module" ng-repeat="x in videos">
+	<button class="btn btn-default" title="Click to watch">
+		{{ x.title }}
+	</button>
+	</div>
+</div>
+<div class="video-player">
+<p>{{ sVideo.title }} <br> {{ sVideo.desc }}</p>
+<video width="600" ng-src="{{sVideo.path}}" controls>
+	Your browser doesn't support this video
 </video>
+</div>

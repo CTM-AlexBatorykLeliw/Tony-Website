@@ -17,7 +17,7 @@ app.config(function($routeProvider){
                     return httpService.get('/media/images');
                 }
             }
-        })        
+        })
         .when('/media/audio', {
             templateUrl: 'partials/media/audio.html',
             controller: 'audioCtrl',
@@ -26,7 +26,7 @@ app.config(function($routeProvider){
                     return httpService.get('/media/audio');
                 }
             }
-        })        
+        })
         .when('/media/videos', {
             templateUrl: 'partials/media/videos.html',
             controller: 'videoCtrl',
@@ -100,7 +100,6 @@ app.controller('contactCtrl', function($scope, httpService){
 });
 
 app.controller('articlesCtrl',  function($scope, $window, links, PDFs){
-
     $scope.section = "!!";
     $scope.pdf = true, $scope.link = true;
     $scope.links = links.data;
@@ -113,39 +112,56 @@ app.controller('articlesCtrl',  function($scope, $window, links, PDFs){
         else // For PDF's
             $window.open($scope.PDFs[id].path, '_blank');
     }
-
 });
 
 app.controller('imageCtrl', function($scope, images){
     $scope.folders = {};
     for(var i = 0; i < images.data.length; i++)
     {
-        var image = images.data[i];
-        var flag = image.folder;
-        var keys = [];
+        var image = images.data[i], folder = image.folder;
+        var flag = true, keys = [];
+
         for(var k in $scope.folders)
             keys.push(k);
+
         for(var j = 0; j < keys.length; j++)
-        {
-            if($scope.folders[j] == images.data[i].folder)
-                flag = '';
-        }
-        // if(flag != '')
-             $scope.folders[flag] = [];
-console.log(image);
-        $scope.folders[flag].push(image);
+            if(keys[j] == folder)
+                flag = false;
+
+        if(flag)
+             $scope.folders[folder] = [];
+
+        $scope.folders[folder].push(image);
     }
-    console.log($scope.folders);
+
+    $scope.selectFolder = function(key)
+    {
+        $scope.sFolder = $scope.folders[key];
+        $scope.sIndex = 0;
+    }
+
+    $scope.nextSlide = function()
+    {
+        $scope.sIndex = ($scope.sIndex < $scope.sFolder.length -1) ? ++$scope.sIndex : 0;
+    }
+
+    $scope.prevSlide = function()
+    {
+        $scope.sIndex = ($scope.sIndex > 0) ? --$scope.sIndex : $scope.sFolder.length - 1;
+    }
+
+    $scope.goToSelection = function()
+    {
+        $scope.sFolder = [];
+        $scope.sIndex = 0;
+    }
 });
 
-app.controller('videoCtrl', function($scope, videos, $sce){
-    //$scope.videos = videos.data;
-    $scope.videos = [
-    {path: "assets/video/video.mp4", title: "Tony Play"},
-    {path: "assets/video/video2.mp4", title: "Tony Play"}
-    ];
-    $scope.path = "assets/video/video.mp4";
-    $scope.title = "Tony Play";
+app.controller('videoCtrl', function($scope, videos, $location){
+    $scope.videos = videos.data;
+
+    $scope.sVideo = {};
+    console.log($location.search().v);
 });
 
 app.controller('audioCtrl', function($scope, audio){
@@ -154,6 +170,9 @@ app.controller('audioCtrl', function($scope, audio){
 
 app.controller('uploadCtrl', function($scope, httpService){
     $scope.a = {};
+    httpService.get('/uploads/assets').success(function(assets){
+        $scope.assets = assets.data;
+    });
 
     $scope.add = function()
     {
@@ -177,23 +196,19 @@ app.controller('uploadCtrl', function($scope, httpService){
             if(asset.type == 'audio')
                 asset.path = 'assets/audio/' + $scope.a.name;
             else if(asset.type == 'video')
+            {
+                asset.desc = $scope.a.desc;
                 asset.path = 'assets/video/' + $scope.a.name;
+            }
             else if(asset.type == 'image')
             {
                 asset.folder = $scope.a.folder;
                 asset.path = 'assets/image/' + asset.folder + '/' + $scope.a.name;
             }
-
             asset.title = $scope.a.title
-
         }
 
         $scope.a = {};
-        addtoDB(asset);
-    }
-
-    function addtoDB(asset)
-    {
         httpService.post('/uploads/assets', asset).success(function(){
             alert("Added");
         });
@@ -201,8 +216,12 @@ app.controller('uploadCtrl', function($scope, httpService){
 
     $scope.delete = function(id)
     {
-        httpService.delete(id).success(function(){
-            console.log("Asset Deleted");
-        });
+        if(confirm("Are you sure you want to delete this?"))
+            httpService.delete('uploads/:asset_id', id).success(function(){
+                httpService.get('/uploads/assets').success(function(assets){
+                    $scope.assets = assets.data;
+                });
+                alert("Asset Deleted");
+            });
     }
 });

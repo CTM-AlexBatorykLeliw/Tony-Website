@@ -54,6 +54,8 @@ textarea {max-width: 100%}
 
 .center {text-align:center;}
 
+.bold { font-weight: bold }
+
 .canvas {
 	padding: 40px 40px 0;
 	margin: 0 auto;

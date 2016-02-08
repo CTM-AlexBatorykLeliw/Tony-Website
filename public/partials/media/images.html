@@ -1,8 +1,25 @@
 <style>
 	
 </style>
-<div class="padding-bottom mobile-text" ng-repeat="(key, value) in folders" style="margin:0 auto">
-	<button ng-click="selectFolder(key)" type="button" class="btn btn-default btn-lg btn-block article" title="Click to View">
-	{{key}}
-	</button>
+<div class="padding-bottom mobile-text mobile-padding" style="margin:0 auto" ng-hide="folders.length">
+	<p class="bold">Please choose from our selection of images to view...</p>
+	<button ng-repeat="(key, value) in folders" ng-click="selectFolder(key)" type="button" class="btn btn-default btn-lg btn-block article" title="Click to View">{{ key }}</button>
 </div>
+<div class="mobile-text mobile-padding" ng-show="sFolder.length">
+	<div class="slideshow-image">
+		<img ng-src="{{ sFolder[sIndex].path }}" alt="{{ sFolder[sIndex].title }}">
+	</div>
+	<nav class="image-nav">
+		<a ng-click="goToSelection()">Back to selection..</a>
+		<img class="button" alt="prev" src="../images/next.png" ng-click="nextSlide()">
+		<img class="button" alt="next" src="../images/prev.png" ng-click="prevSlide()">
+		<span class="bold">{{ sIndex }} / {{ sFolder.length }}</span>
+	</nav>
+</div>
+<script>
+	$(document).on('ready', function(){
+		$('.button').on('hover', function(){
+			$(this).css('opacity', '0.5');
+		});
+	});
+</script>
