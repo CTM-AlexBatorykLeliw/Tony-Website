@@ -27,10 +27,45 @@ router.get('/uploads/:key', function(req, res){
 });
 
 router.get('/uploads', function(req, res, next){
-	var user = {
-		authorised: false
-	};
+	var user = { authorised: false };
 	res.render('uploads', user);
+});
+
+/* GET all assets */
+router.get('/uploads/assets', function(req, res, next){
+	Asset.find(function(err, assets){
+		if(err)
+			return next(err);
+
+		res.json(assets);
+	});
+});
+
+/* POST Asset into DB */
+router.post('/uploads/assets', function(req, res, next){
+	var asset = new Asset(req.body);
+
+	asset.save(function(err, asset){
+		if(err)
+			return next(err);
+
+		res.json(asset);
+	});
+});
+
+/* DELETE asset */
+router.delete('/uploads/:asset_id', function(req, res, next){
+	Asset.findById(req.params.asset_id, function(err, asset){
+		if(err)
+			return next(err);
+
+		asset.remove({}, function(err){
+			if(err)
+				return next(err);
+
+			res.send('Asset deleted');
+		});
+	});
 });
 
 /************************** MEDIA *****************************/
@@ -82,44 +117,6 @@ router.get('/articles/PDFs', function(req, res, next){
 			return next(err);
 
 		res.json(articles);
-	});
-});
-
-/************************** UPLOADS *****************************/
-/* GET all assets */
-router.get('/uploads/assets', function(req, res, next){
-	Asset.find(function(err, assets){
-		if(err)
-			return next(err);
-
-		res.json(assets);
-	});
-});
-
-/* POST Asset into DB */
-router.post('/uploads/assets', function(req, res, next){
-	var asset = new Asset(req.body);
-
-	asset.save(function(err, asset){
-		if(err)
-			return next(err);
-
-		res.json(asset);
-	});
-});
-
-/* DELETE asset */
-router.delete('/uploads/:asset_id', function(req, res, next){
-	Asset.findById(req.params.asset_id, function(err, asset){
-		if(err)
-			return next(err);
-
-		asset.remove({}, function(err){
-			if(err)
-				return next(err);
-
-			res.send('Asset deleted');
-		});
 	});
 });
 

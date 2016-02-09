@@ -31,7 +31,7 @@
 			</button>
 		</div>
 	</div>
-	<div class="row" ng-show="pdf && (PDFs | filter:searchStr | filter:section).length">
+	<div ng-show="pdf && (PDFs | filter:searchStr | filter:section).length">
 		<div class="col-xs-12 padding-bottom">
 			PDFs
 		</div>
@@ -44,6 +44,6 @@
 		</div>
 	</div>
 	<div class="col-xs-12 padding-bottom" ng-hide="((PDFs | filter:searchStr | filter:section).length || (links | filter:searchStr | filter:section).length) && (link || pdf)">
-		<span class="none">There are no articles matching this criteria. Please try again.</span>
+		<span class="italic">There are no articles matching this criteria. Please try again.</span>
 	</div>
 </div>

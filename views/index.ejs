@@ -6,11 +6,15 @@
 <!-- <base href="https://www.tony-leliw.com/" />  -->
 <meta name="description" content="Portfolio of Tony Leliw" />
 <meta name="keywords" content="Tony, Leliw, Writer, Journalist" />
-<meta name="msvalidate.01" content="" /> <!-- Website verification -->
-<link href="images/book.png" rel="icon" />
+<meta name="msvalidate.01" content="" /> <!-- Website verification for Microsoft Bing-->
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="language" content="english">
 <meta name="theme-color" content="#379CD0" />
-<link href="https://www.tony-leliw.com/" rel="canonical" />
+<meta name="author" content="Alex Batoryk-Leliw">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="images/book.png" rel="icon" />
+<link href="http://www.tony-leliw.com/" rel="canonical" />
 <script src="modules/jquery/dist/jquery.min.js"></script>
 <link rel="stylesheet" href="modules/bootstrap/dist/css/bootstrap.min.css"></script>
 <script src="modules/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -18,21 +22,30 @@
 <script src="modules/angular/angular.min.js"></script>
 <script src="modules/angular-route/angular-route.min.js"></script>
 <script src="modules/typed.js/dist/typed.min.js"></script>
-<link rel="stylesheet" href="modules/angular-spinkit/build/angular-spinkit.min.css">
-<script src="modules/angular-spinkit/build/angular-spinkit.min.js"></script>
-<script src="javascripts/controllers.js"></script>
+<script src="javascripts/websiteCtrls.js"></script>
 </head>
 <body ng-app="portfolio">
 <style>
 @media (max-width: 800px){
 	.nav-bar { width:100%; }
 	.images {width: 500px; height: 333.333px;}
+	video {width: 100%;}
+	#container {width: 100%!important;}
+	.mobile-video {display: block!important;}
+	.sidebar {display:none!important;}
+	.main {padding: 0 20px;}
+	video {margin-left: 0!important;}
+	.vid-text {padding-left: 0!important;}
 }
 @media (max-width: 640px){
-	.images {width: 300px; height: 200px;}
+	.images {width: 200px; height: 166.666px;}
 	.canvas { padding: 20px 0; }
 	.mobile-padding { padding: 20px 15px 0 15px;}
 	.mobile-text { width: 100%; }
+	video {width: 100%;}
+}
+@media (max-width: 380px){
+	.nav-link {width:100%; float:left;}
 }
 </style>
 <div class="canvas">
@@ -64,7 +77,6 @@
     </div>
     <hr class="nav-bar">
 
-
     <!-- Angular route partials are injected into here -->
     <div ng-view></div>	
 </div>
@@ -90,12 +102,6 @@ $(document).on('ready', function(){
 		$('.typed-cursor').css('visibility', 'hidden');
 	}
 	setTimeout(removeCursor, 5000);
-
-	// $('.dropbtn').on('click', function(){
-	// 	$('.dropdown-content').toggle('display');
-	// 	var font = $(this).css('font-weight') == 'bold' ? 'normal' : 'bold';
-	// 	$(this).css('font-weight', font);
-	// });
 });
 </script>
 </body>

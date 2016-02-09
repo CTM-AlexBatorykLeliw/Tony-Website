@@ -1,34 +1,18 @@
-
-<style>
-	.slideshow-image { margin: 0 auto; }
-	.images { width: 600px; height: 400px; }
-	.images img { max-width: 100%; max-height: 100%; display: none;}
-	.images img .active { display: block; }
-	.album-button{ width: 45%; float: left; margin: 0 0 0 10px; }
-	.slide-active {display: block!important;}
-</style>
 <div class="padding-bottom mobile-text mobile-padding" style="margin:0 auto" ng-hide="sFolder.length">
 	<p class="bold">Please choose from our selection of albums to view...</p>
-	<button ng-repeat="(key, value) in folders" ng-click="selectFolder(key)" type="button" class="album-button btn btn-default btn-lg article" title="Click to View">{{ key }}</button>
+	<button ng-repeat="(key, value) in folders" ng-click="selectFolder(key)" type="button" class="album-button btn-album btn btn-default btn-lg article" title="Click to View">{{ key }}</button>
 </div>
 <div align="center" class="mobile-text mobile-padding slideshow-image" ng-show="sFolder.length">
 	<p><a ng-click="goToSelection()" class="cursor">Back to selection..</a></p>
 	<div class="images">
-		<img spinkit-image-preloader="circle-spinner" ng-repeat="x in sFolder" ng-class="{true: 'slide-active'}[{{$index}} == sIndex]" ng-src="{{ x.path }}" alt="{{ x.title }}">
-		<!-- Sort out spinner -->
-		<circle-spinner></circle-spinner>
+		<img image- ng-repeat="x in sFolder" ng-class="{true: 'slide-active'}[{{$index}} == sIndex]" ng-src="{{ x.path }}" alt="{{ x.title }}">
 	</div>
 	<p>
 		{{ sFolder[sIndex].title }}
 		<span class="bold"> ({{ sIndex + 1 }}/{{ sFolder.length }})</span>
 	</p>
 	<nav class="image-nav">
-		<img class="cursor" alt="prev" src="../images/prev.png" ng-click="prevSlide()">
-		<img class="cursor" alt="next" src="../images/next.png" ng-click="nextSlide()">
+		<img ng-mouseenter="hover1=true" ng-mouseleave="hover1=false" class="cursor" ng-class="{true:'nav-button'}[hover1]" alt="prev" src="../images/prev.png" ng-click="prevSlide()">
+		<img ng-mouseenter="hover2=true" ng-mouseleave="hover2=false" class="cursor" ng-class="{true:'nav-button'}[hover2]" alt="next" src="../images/next.png" ng-click="nextSlide()">
 	</nav>
 </div>
-<script>
-	$(document).on('ready', function(){
-
-	});
-</script>

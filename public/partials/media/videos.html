@@ -1,13 +1,27 @@
-<div class="side-bar">
-	<div class="module" ng-repeat="x in videos">
-	<button class="btn btn-default" title="Click to watch">
-		{{ x.title }}
-	</button>
+<div id="container">
+	<div id="content">
+		<div class="sidebar primary">
+			<div ng-repeat="x in videos">
+			<div ng-click="selectVideo($index)" class="btn btn-default btn-video" ng-class="{true: 'active-video'}[{{$index}} == sIndex]" title="Click to watch">
+				{{ x.title }}
+			</div>
+			</div>
+		</div>
+		<div class="main" ng-show="sIndex != -1">
+			<p class="vid-text">{{ videos[sIndex].title }} <br> {{ videos[sIndex].desc }}</p>
+			<video width="600" ng-src="{{videos[sIndex].path}}" controls>
+				Your browser doesn't support this video, please try Google Chrome or Firefox
+			</video>
+		</div>
+		<div class="main italic" ng-show="sIndex == -1">
+			Please select a video to watch from the list..
+		</div>
 	</div>
-</div>
-<div class="video-player">
-<p>{{ sVideo.title }} <br> {{ sVideo.desc }}</p>
-<video width="600" ng-src="{{sVideo.path}}" controls>
-	Your browser doesn't support this video
-</video>
+	<div class="mobile-video">
+		<div ng-repeat="x in videos">
+		<div ng-click="selectVideo($index)" class="btn btn-default btn-video" ng-class="{true: 'active-video'}[{{$index}} == sIndex]" title="Click to watch">
+			{{ x.title }}
+		</div>
+		</div>
+	</div>
 </div>
