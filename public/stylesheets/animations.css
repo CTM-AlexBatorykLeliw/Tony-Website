@@ -1,0 +1,39 @@
+.show-hide {
+  	webkit-transition:all linear 0.5s;
+  	transition:all linear 0.5s;
+}
+
+.show-hide.ng-hide { opacity:0; }
+
+.slide-animate.ng-enter, .slide-animate.ng-leave{
+    -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s;
+    -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s;
+    -o-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s;
+   	transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s;
+ }
+
+.slide-animate.ng-enter.ng-enter-active {
+ 	position: absolute;
+ 	left: 1300px;
+}
+
+.slide-animate.ng-enter {
+ 	left: 0;
+}
+
+.slide-animate.ng-leave.ng-leave-active {
+	position: absolute;
+	left: -1700px;
+}
+
+.slide-animate.ng-leave { right: 0; }
+
+/* entering animations --------------------------------------- */
+/* scale up */
+@keyframes scaleUp {
+    from    { opacity: 0.3; -webkit-transform: scale(0.8); }
+}
+
+.ng-enter { z-index: 8888; }
+.ng-leave { z-index: 9999; }
+.page.ng-enter { animation:scaleUp 0.5s both ease-in; }

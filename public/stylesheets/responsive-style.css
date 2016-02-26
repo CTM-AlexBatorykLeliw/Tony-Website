@@ -1,0 +1,21 @@
+@media (max-width: 800px){
+    .nav-bar { width:100%; }
+    .images {width: 500px; height: 333.333px;}
+    video {width: 100%;}
+    #container {width: 100%!important;}
+    .mobile-video {display: block!important;}
+    .sidebar {display:none!important;}
+    .main {padding: 0 20px;}
+    video {margin-left: 0!important;}
+    .vid-text {padding-left: 0!important;}
+}
+@media (max-width: 640px){
+    .images {width: 200px; height: 166.666px;}
+    .canvas { padding: 20px 0; }
+    .mobile-padding { padding: 20px 15px 0 15px;}
+    .mobile-text { width: 100%; }
+    video {width: 100%;}
+}
+@media (max-width: 380px){
+    .nav-link {width:100%; float:left;}
+}

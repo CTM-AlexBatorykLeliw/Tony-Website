@@ -168,3 +168,11 @@ a > .active {text-decoration: underline;}
 .images img .active { display: block; }
 .album-button{ width: 45%; float: left; margin: 0 0 10px 10px; }
 .slide-active {display: block!important;}
+.image-nav img {
+    width: 64px;
+    cursor: pointer;
+}
+.image-nav span {
+    position: relative;
+    bottom: 25px;
+}

@@ -1,10 +1,9 @@
-var app = angular.module('portfolio', ['ngRoute']);
+var app = angular.module('portfolio', ['ngRoute', 'ngAnimate']);
 
 app.config(function($routeProvider){
     $routeProvider
         .when('/home', {
-            templateUrl: 'partials/home.html',
-            controller: 'homeCtrl'
+            templateUrl: 'partials/home.html'
         })
         .when('/media', {
             templateUrl: 'partials/media.html'
@@ -78,10 +77,6 @@ app.service('httpService', function($http){
     }
 });
 
-app.controller('homeCtrl', function($scope, $route){
-    $scope.readMore = false;
-});
-
 app.controller('contactCtrl', function($scope, httpService){
     $scope.a = {};
 
@@ -115,7 +110,7 @@ app.controller('articlesCtrl',  function($scope, $window, links, PDFs){
 });
 
 app.controller('imageCtrl', function($scope, images){
-    $scope.folders = {};
+    $scope.folders = {}, $scope.loaded = false;
     for(var i = 0; i < images.data.length; i++)
     {
         var image = images.data[i], folder = image.folder;
@@ -136,8 +131,7 @@ app.controller('imageCtrl', function($scope, images){
 
     $scope.selectFolder = function(key)
     {
-        $scope.sFolder = $scope.folders[key];
-        $scope.sIndex = 0;
+        $scope.sFolder = $scope.folders[key], $scope.sIndex = 0, $scope.loaded = true;
     }
 
     $scope.nextSlide = function()
@@ -152,16 +146,21 @@ app.controller('imageCtrl', function($scope, images){
 
     $scope.goToSelection = function()
     {
-        $scope.sFolder = [];
-        $scope.sIndex = 0;
+        $scope.sFolder = [], $scope.loaded = false, $scope.sIndex = 0;
     }
 });
 
 app.controller('videoCtrl', function($scope, videos, $location){
     $scope.videos = videos.data;
+    $scope.sIndex = -1;
 
-    $scope.sVideo = {};
-    console.log($location.search().v);
+    if($location.search().v != null)
+        $scope.sIndex = $location.search().v;
+
+    $scope.selectVideo = function(id)
+    {
+        $scope.sIndex = id;
+    }
 });
 
 app.controller('audioCtrl', function($scope, audio){

@@ -16,37 +16,19 @@
 <link href="images/book.png" rel="icon" />
 <link href="http://www.tony-leliw.com/" rel="canonical" />
 <script src="modules/jquery/dist/jquery.min.js"></script>
-<link rel="stylesheet" href="modules/bootstrap/dist/css/bootstrap.min.css"></script>
 <script src="modules/bootstrap/dist/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="stylesheets/style.css">
 <script src="modules/angular/angular.min.js"></script>
 <script src="modules/angular-route/angular-route.min.js"></script>
+<script src="modules/angular-animate/angular-animate.min.js"></script>
 <script src="modules/typed.js/dist/typed.min.js"></script>
 <script src="javascripts/controllers.js"></script>
 </head>
 <body ng-app="portfolio">
 <style>
-@media (max-width: 800px){
-	.nav-bar { width:100%; }
-	.images {width: 500px; height: 333.333px;}
-	video {width: 100%;}
-	#container {width: 100%!important;}
-	.mobile-video {display: block!important;}
-	.sidebar {display:none!important;}
-	.main {padding: 0 20px;}
-	video {margin-left: 0!important;}
-	.vid-text {padding-left: 0!important;}
-}
-@media (max-width: 640px){
-	.images {width: 200px; height: 166.666px;}
-	.canvas { padding: 20px 0; }
-	.mobile-padding { padding: 20px 15px 0 15px;}
-	.mobile-text { width: 100%; }
-	video {width: 100%;}
-}
-@media (max-width: 380px){
-	.nav-link {width:100%; float:left;}
-}
+@import "modules/bootstrap/dist/css/bootstrap.min.css";
+@import "stylesheets/style.css";
+@import "stylesheets/responsive-style.css";
+@import "stylesheets/animations.css";
 </style>
 <div class="canvas">
 	<div class="center">
@@ -78,7 +60,7 @@
     <hr class="nav-bar">
 
     <!-- Angular route partials are injected into here -->
-    <div ng-view></div>	
+    <div class="page" ng-view></div>	
 </div>
 
 <!-- Footer -->

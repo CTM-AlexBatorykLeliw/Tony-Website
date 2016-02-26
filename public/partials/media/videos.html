@@ -7,13 +7,13 @@
 			</div>
 			</div>
 		</div>
-		<div class="main" ng-show="sIndex != -1">
+		<div class="main show-hide" ng-show="sIndex != -1">
 			<p class="vid-text">{{ videos[sIndex].title }} <br> {{ videos[sIndex].desc }}</p>
-			<video width="600" ng-src="{{videos[sIndex].path}}" controls>
+			<video width="600" ng-src="{{videos[sIndex].path}}" controls autoplay>
 				Your browser doesn't support this video, please try Google Chrome or Firefox
 			</video>
 		</div>
-		<div class="main italic" ng-show="sIndex == -1">
+		<div class="main italic center" ng-show="sIndex == -1">
 			Please select a video to watch from the list..
 		</div>
 	</div>

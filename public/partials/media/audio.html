@@ -1,8 +1,8 @@
-<div class="padding-bottom mobile-text" ng-repeat="x in audio" style="margin:0 auto">
+<div class="mobile-text" ng-repeat="x in audio" style="margin:0 auto; padding: 0 20px 10px">
 	<div class="article" style="border: 1px solid #ccc; padding: 6px; border-radius: 3px">
 		<u>{{ x.title }}</u>
 		<br/> 
-		<audio ng-src="{{ x.path }}" controls class="full-width">
+		<audio preload="none" ng-src="{{ x.path }}" controls class="full-width">
 		Your browser does not support the audio.
 		</audio>
 	</div>
