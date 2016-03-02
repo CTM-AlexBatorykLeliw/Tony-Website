@@ -122,13 +122,13 @@
 		</div>
 	</div>
 	<div ng-show="editTab" class="row">
-		Title: {{e.title}}<br>
-		Description: {{e.desc}}<br>
-		Name of asset: {{e.name}}<br>
-		Folder: {{e.folder}}<br>
-		Section: {{e.section}}<br>
-		Link: {{e.link}}<br>
-		<button ng-click="makeChange(x._id)">Make Changes</button>
+		Title: <input ng-model="e.title"><br>
+		Description: <input ng-model="e.desc"><br>
+		Name of asset: <input ng-model="e.name"><br>
+		Folder: <input ng-model="e.folder"><br>
+		Section: <input ng-model="e.section"><br>
+		Link: <input ng-model="e.link"><br>
+		<button ng-click="makeChange(e.id)">Make Changes</button>
 	</div>
 </div>
 

@@ -159,6 +159,7 @@ app.controller('videoCtrl', function($scope, videos, $location){
 
     $scope.selectVideo = function(id)
     {
+        $location.path('/media/videos').search({v: id});
         $scope.sIndex = id;
     }
 });
@@ -228,13 +229,14 @@ app.controller('uploadCtrl', function($scope, httpService){
 
     $scope.edit = function(id)
     {
-        httpService.get('/info/' + id, function(data){
+        httpService.get('/info/' + id).success(function(data){
             $scope.e.title = data.title;
             $scope.e.desc = data.desc;
             $scope.e.section = data.section;
             $scope.e.link = data.link;
             $scope.e.name = data.name;
             $scope.e.folder = data.folder;
+            $scope.e.id = id;
         });
         $scope.editTab = true;
     }
@@ -246,7 +248,7 @@ app.controller('uploadCtrl', function($scope, httpService){
             if($scope.e !== '')
                 updatedInfo[k] = $scope.e[k];
 
-        httpService.put('/info/' + id, updatedInfo, function(){
+        httpService.put('/info/' + id, updatedInfo).success(function(){
             getAssets();
         });
 
