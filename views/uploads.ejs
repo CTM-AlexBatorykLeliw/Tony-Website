@@ -10,13 +10,6 @@
 </head>
 <body ng-app="portfolio">
 
-<p>Please enter the password in order to go to the uploads page</p>
-<form action="/uploads" method="post">
-	<input type="password" name="secret">
-	<input type="submit" value="Authorise">
-</form>
-<hr>
-
 <% if(authorised){ %>
 <div class="container" ng-controller="uploadCtrl">
 	<div class="row">
@@ -35,15 +28,15 @@
 			<div>
 				<label for="a.title">Title</label>
 				<input type="text" class="form-control" ng-model="a.title">
-			</div>	
+			</div>
 			<div>
 				<label for="a.desc">Description</label>
 				<input type="text" class="form-control" ng-model="a.desc">
-			</div>	
+			</div>
 			<div>
 				<label for="a.link">Link (include the www.)</label>
 				http://<input type="text" class="form-control" ng-model="a.link">
-			</div>			
+			</div>
 			<div>
 				<label for="a.section">Section</label>
 				<select ng-model="a.section">
@@ -52,21 +45,21 @@
 					<option value="nat">National</option>
 					<option value="int">International</option>
 				</select>
-			</div>					
-			</div>			
+			</div>
+			</div>
 			<div ng-model="PDF" ng-hide="a.type !== 'PDF'">
 			<div>
 				<label for="a.title">Title</label>
 				<input type="text" class="form-control" ng-model="a.title">
-			</div>	
+			</div>
 			<div>
 				<label for="a.desc">Description</label>
 				<input type="text" class="form-control" ng-model="a.desc">
-			</div>	
+			</div>
 			<div>
 				<label for="a.name">Name of asset (include file extention e.g. Example.pdf)</label>
 				<input type="text" class="form-control" ng-model="a.name">
-			</div>		
+			</div>
 			<div>
 				<label for="a.section">Section</label>
 				<select ng-model="a.section">
@@ -75,65 +68,78 @@
 					<option value="nat">National</option>
 					<option value="int">International</option>
 				</select>
-			</div>					
+			</div>
 			</div>
 			<div ng-model="audio" ng-hide="a.type !== 'audio'">
 			<div>
 				<label for="a.title">Title</label>
 				<input type="text" class="form-control" ng-model="a.title">
-			</div>	
+			</div>
 			<div>
 				<label for="a.name">Name of asset (include file extention e.g. Example.pdf)</label>
 				<input type="text" class="form-control" ng-model="a.name">
-			</div>	
-			</div>			
+			</div>
+			</div>
 			<div ng-model="image" ng-hide="a.type !== 'image'">
 			<div>
 				<label for="a.title">Title</label>
 				<input type="text" class="form-control" ng-model="a.title">
-			</div>	
+			</div>
 			<div>
 				<label for="a.name">Name of asset (include file extention e.g. Example.pdf)</label>
 				<input type="text" class="form-control" ng-model="a.name">
-			</div>			
+			</div>
 			<div>
 				<label for="a.desc">Name of folder</label>
 				<input type="text" class="form-control" ng-model="a.folder">
 			</div>
-			</div>			
+			</div>
 			<div ng-model="video" ng-hide="a.type !== 'video'">
 			<div>
 				<label for="a.title">Title</label>
 				<input type="text" class="form-control" ng-model="a.title">
-			</div>				
+			</div>
 			<div>
 				<label for="a.desc">Description</label>
 				<input type="text" class="form-control" ng-model="a.desc">
-			</div>	
+			</div>
 			<div>
 				<label for="a.name">Name of asset (include file extention e.g. Example.pdf)</label>
 				<input type="text" class="form-control" ng-model="a.name">
-			</div>	
 			</div>
-
+			</div>
 			<div>
-				<button ng-click="add()">
-			    	Add
-			    </button>
+				<button ng-click="add()">Add</button>
 			</div>
 		</div>
 	</div>
-</div>
-<div class="container">
-	<p> If needing to delete anything, a list of everything is below. Just click the remove button and confirm.</p>
-	<div ng-repeat="x in assets">
-		<button ng-click="delete(x._id)">Remove</button>
-		Title: {{ x.title }}<br>
-		Description: {{x.desc}}
+	<div class="row">
+		<p> If needing to delete anything, a list of everything is below. Just click the remove button and confirm.</p>
+		<div ng-repeat="x in assets">
+			<button ng-click="delete(x._id)">Remove</button> 
+			<button ng-click="edit(x._id)">Edit</button> 
+			Type: {{ x.type }}, Title: {{ x.title }}, Description: {{x.desc}}
+		</div>
+	</div>
+	<div ng-show="editTab" class="row">
+		Title: {{e.title}}<br>
+		Description: {{e.desc}}<br>
+		Name of asset: {{e.name}}<br>
+		Folder: {{e.folder}}<br>
+		Section: {{e.section}}<br>
+		Link: {{e.link}}<br>
+		<button ng-click="makeChange(x._id)">Make Changes</button>
 	</div>
 </div>
 
 <% } else { %>
+
+<p>Please enter the password in order to go to the uploads page</p>
+<form action="/uploads" method="post">
+	<input type="password" name="secret">
+	<input type="submit" value="Authorise">
+</form>
+<hr>
 
 <p> Not authorised </p>
 

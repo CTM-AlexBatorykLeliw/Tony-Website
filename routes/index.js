@@ -32,7 +32,7 @@ router.get('/uploads', function(req, res, next){
 });
 
 /* GET all assets */
-router.get('/uploads/assets', function(req, res, next){
+router.get('/info', function(req, res, next){
 	Asset.find(function(err, assets){
 		if(err)
 			return next(err);
@@ -41,8 +41,18 @@ router.get('/uploads/assets', function(req, res, next){
 	});
 });
 
+/* GET specific asset */
+router.get('/info/:asset_id', function(req, res, next){
+	Asset.findById(req.params.asset_id, function(err, asset){
+		if(err)
+			return next(err);
+
+		res.json(asset);
+	});
+});
+
 /* POST Asset into DB */
-router.post('/uploads/assets', function(req, res, next){
+router.post('/info', function(req, res, next){
 	var asset = new Asset(req.body);
 
 	asset.save(function(err, asset){
@@ -53,8 +63,37 @@ router.post('/uploads/assets', function(req, res, next){
 	});
 });
 
+/* UPDATE asset */
+router.put('/info/:asset_id', function(req, res, next){
+	Asset.findById(req.params.asset_id, function(err, asset){
+		if(err)
+			return next(err);
+
+		if(req.body.title)
+			asset.title = req.body.title;
+		if(req.body.desc)
+			asset.desc = req.body.desc;
+		if(req.body.section)
+			asset.section = req.body.section;
+		if(req.body.link)
+			asset.link = req.body.link;
+		if(req.body.name)
+			asset.name = req.body.name;
+		if(req.body.folder)
+			asset.folder = req.body.folder;
+
+		asset.save(function(err){
+			if(err)
+				return res.send(err);
+
+			return res.send('Asset updated');
+		});
+
+	});
+});
+
 /* DELETE asset */
-router.delete('/uploads/:asset_id', function(req, res, next){
+router.delete('/info/:asset_id', function(req, res, next){
 	Asset.findById(req.params.asset_id, function(err, asset){
 		if(err)
 			return next(err);
@@ -132,7 +171,6 @@ router.post('/contact', function(req, res, next){
 		text: req.body.text + '\n\n' + "Email: " + req.body.email
 	};
 
-console.log(mail);
 	transporter.sendMail(mail, function(err, res){
         if(err)
             return next(err);
@@ -143,7 +181,5 @@ console.log(mail);
 
     res.json("email sent");
 });
-
-        
 
 module.exports = router;

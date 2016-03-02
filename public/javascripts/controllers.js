@@ -168,10 +168,14 @@ app.controller('audioCtrl', function($scope, audio){
 });
 
 app.controller('uploadCtrl', function($scope, httpService){
-    $scope.a = {};
-    httpService.get('/uploads/assets').success(function(assets){
-        $scope.assets = assets.data;
-    });
+    $scope.a = {}, $scope.e = {}, $scope.editTab = false;
+    function getAssets()
+    {
+        httpService.get('/info').success(function(assets){
+            $scope.assets = assets;
+        });
+    }
+    getAssets();
 
     $scope.add = function()
     {
@@ -208,19 +212,44 @@ app.controller('uploadCtrl', function($scope, httpService){
         }
 
         $scope.a = {};
-        httpService.post('/uploads/assets', asset).success(function(){
+        httpService.post('/info/', asset).success(function(){
             alert("Added");
         });
+        getAssets();
     }
 
     $scope.delete = function(id)
     {
         if(confirm("Are you sure you want to delete this?"))
-            httpService.delete('uploads/:asset_id', id).success(function(){
-                httpService.get('/uploads/assets').success(function(assets){
-                    $scope.assets = assets.data;
-                });
-                alert("Asset Deleted");
+            httpService.delete('info/' + id).success(function(){
+                getAssets();
             });
+    }
+
+    $scope.edit = function(id)
+    {
+        httpService.get('/info/' + id, function(data){
+            $scope.e.title = data.title;
+            $scope.e.desc = data.desc;
+            $scope.e.section = data.section;
+            $scope.e.link = data.link;
+            $scope.e.name = data.name;
+            $scope.e.folder = data.folder;
+        });
+        $scope.editTab = true;
+    }
+
+    $scope.makeChange = function(id)
+    {
+        var updatedInfo = {}, keys = [];
+        for(var k in $scope.e)
+            if($scope.e !== '')
+                updatedInfo[k] = $scope.e[k];
+
+        httpService.put('/info/' + id, updatedInfo, function(){
+            getAssets();
+        });
+
+        $scope.editTab = false;
     }
 });
