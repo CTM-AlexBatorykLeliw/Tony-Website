@@ -183,17 +183,17 @@ app.controller('uploadCtrl', function($scope, httpService){
         var asset = { type: $scope.a.type };
         if(asset.type == 'link')
         {
-            asset.title = $scope.a.title,
-            asset.desc = $scope.a.desc,
-            asset.link = $scope.a.link,
-            asset.section = $scope.a.section
+            asset.title = $scope.a.title;
+            asset.desc = $scope.a.desc;
+            asset.link = $scope.a.link;
+            asset.section = $scope.a.section;
         }
         else if(asset.type == 'PDF')
         {
-            asset.title = $scope.a.title,
-            asset.desc = $scope.a.desc,
-            asset.path = 'assets/PDF/' + $scope.a.name,
-            asset.section = $scope.a.section
+            asset.title = $scope.a.title;
+            asset.desc = $scope.a.desc;
+            asset.path = 'assets/PDF/' + $scope.a.name;
+            asset.section = $scope.a.section;
         }
         else
         {
@@ -209,13 +209,11 @@ app.controller('uploadCtrl', function($scope, httpService){
                 asset.folder = $scope.a.folder;
                 asset.path = 'assets/image/' + asset.folder + '/' + $scope.a.name;
             }
-            asset.title = $scope.a.title
+            asset.title = $scope.a.title;
         }
 
         $scope.a = {};
-        httpService.post('/info/', asset).success(function(){
-            alert("Added");
-        });
+        httpService.post('/info/', asset);
         getAssets();
     }
 
@@ -230,6 +228,7 @@ app.controller('uploadCtrl', function($scope, httpService){
     $scope.edit = function(id)
     {
         httpService.get('/info/' + id).success(function(data){
+            $scope.e = {};
             $scope.e.title = data.title;
             $scope.e.desc = data.desc;
             $scope.e.section = data.section;

@@ -114,20 +114,21 @@
 		</div>
 	</div>
 	<div class="row">
-		<p> If needing to delete anything, a list of everything is below. Just click the remove button and confirm.</p>
-		<div ng-repeat="x in assets">
+		<p> If needing to edit or delete any asset. Click the relevent button below</p>
+		<div ng-repeat="x in assets | orderBy: 'type'">
 			<button ng-click="delete(x._id)">Remove</button> 
 			<button ng-click="edit(x._id)">Edit</button> 
-			Type: {{ x.type }}, Title: {{ x.title }}, Description: {{x.desc}}
+			Type: {{ x.type }}, Title: {{ x.title }}
 		</div>
 	</div>
 	<div ng-show="editTab" class="row">
-		Title: <input ng-model="e.title"><br>
-		Description: <input ng-model="e.desc"><br>
-		Name of asset: <input ng-model="e.name"><br>
-		Folder: <input ng-model="e.folder"><br>
-		Section: <input ng-model="e.section"><br>
-		Link: <input ng-model="e.link"><br>
+		<div>Here you can make changes to any information about a particular asset you want.</div>
+		<div ng-show="e.title">Title: <input ng-model="e.title"></div>
+		<div ng-show="e.desc">Description: <input ng-model="e.desc"></div>
+		<div ng-show="e.name">Name of asset: <input ng-model="e.name"></div>
+		<div ng-show="e.folder">Folder: <input ng-model="e.folder"></div>
+		<div ng-show="e.section">Section: <input ng-model="e.section"></div>
+		<div ng-show="e.link">Link: <input ng-model="e.link"></div>
 		<button ng-click="makeChange(e.id)">Make Changes</button>
 	</div>
 </div>
