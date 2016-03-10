@@ -115,11 +115,20 @@
 	</div>
 	<div class="row">
 		<p> If needing to edit or delete any asset. Click the relevent button below</p>
-		<div ng-repeat="x in assets | orderBy: 'type'">
-			<button ng-click="delete(x._id)">Remove</button> 
-			<button ng-click="edit(x._id)">Edit</button> 
-			Type: {{ x.type }}, Title: {{ x.title }}
-		</div>
+		<table>
+		<tr>
+			<td>Type</td>
+			<td>Title</td>
+			<td>Edit</td>
+			<td>Delete</td>
+		</tr>
+		<tr ng-repeat="x in assets | orderBy: 'type'">
+			<td> {{ x.type }} </td>
+			<td> {{ x.title }} </td>
+			<td><button ng-click="edit(x._id)">Edit</button> </td>
+			<td><button ng-click="delete(x._id)">Remove</button></td>
+		</tr>
+		</table>
 	</div>
 	<div ng-show="editTab" class="row">
 		<div>Here you can make changes to any information about a particular asset you want.</div>

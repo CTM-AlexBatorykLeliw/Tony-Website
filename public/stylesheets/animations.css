@@ -31,7 +31,7 @@
 /* entering animations --------------------------------------- */
 /* scale up */
 @keyframes scaleUp {
-    from    { opacity: 0.3; -webkit-transform: scale(0.8); }
+	from{ opacity: 0.3; -webkit-transform: scale(0.8); }
 }
 
 .ng-enter { z-index: 8888; }
