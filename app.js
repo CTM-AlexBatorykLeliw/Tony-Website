@@ -4,12 +4,17 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
 // Modules for MongoDB
 var mongoose = require('mongoose');
 require('./models/Assets');
-// Connection to MongoLab, they are hosting the mongoDB online. 500MB free
-mongoose.connect('mongodb://AlexBatorykLeliw:Kingducky2008@ds055855.mongolab.com:55855/tony-website');
 
+// Connection to DB (mLab). This requires dbuser, dbpassword & dbhost
+var env = process.env.NODE_ENV || 'dev';
+var config = require('./config')[env];
+mongoose.connect("mongodb://" + config.db.user + ":" + config.db.password + "@" + config.db.host);
+
+// Routes
 var routes = require('./routes/index');
 
 var app = express();
@@ -57,6 +62,5 @@ app.use(function(err, req, res, next){
         error: {}
     });
 });
-
 
 module.exports = app;
