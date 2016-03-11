@@ -77,6 +77,24 @@ app.service('httpService', function($http){
     }
 });
 
+// Directive which performs the typing animation
+app.directive('typed', ['$parse', function($parse){
+    return {
+        restrict: 'A',
+        scope: {},
+        link: function(scope, element, attrs){
+            element.typed({
+                strings: ["TONY LELIW"],
+                typeSpeed: 250,
+                startDelay: 100
+            });
+            setTimeout(function(){
+                $('.typed-cursor').css('visibility', 'hidden');     
+            }, 5000);
+        }
+    };
+}]);
+
 app.controller('contactCtrl', function($scope, httpService){
     $scope.a = {};
 
@@ -113,18 +131,17 @@ app.controller('imageCtrl', function($scope, images){
     $scope.folders = {}, $scope.loaded = false;
     for(var i = 0; i < images.data.length; i++)
     {
-        var image = images.data[i], folder = image.folder;
-        var flag = true, keys = [];
+        var image = images.data[i], folder = image.folder, flag = true, keys = [];
 
         for(var k in $scope.folders)
             keys.push(k);
 
         for(var j = 0; j < keys.length; j++)
-            if(keys[j] == folder)
+            if(keys[k] == folder)
                 flag = false;
 
         if(flag)
-             $scope.folders[folder] = [];
+            $scope.folders[folder] = [];
 
         $scope.folders[folder].push(image);
     }
@@ -228,14 +245,15 @@ app.controller('uploadCtrl', function($scope, httpService){
     $scope.edit = function(id)
     {
         httpService.get('/info/' + id).success(function(data){
-            $scope.e = {};
-            $scope.e.title = data.title;
-            $scope.e.desc = data.desc;
-            $scope.e.section = data.section;
-            $scope.e.link = data.link;
-            $scope.e.name = data.name;
-            $scope.e.folder = data.folder;
-            $scope.e.id = id;
+            $scope.e = {
+                title: data.title,
+                desc: data.desc,
+                section: data.section,
+                link: data.link,
+                name: data.name,
+                folder: data.folder,
+                id: id
+            };
         });
         $scope.editTab = true;
     }

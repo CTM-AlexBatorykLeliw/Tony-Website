@@ -33,7 +33,7 @@
 <div class="canvas">
 	<div class="center">
 		<div class="col-xs-12 padding-bottom">
-			<h3 class="element"></h3>
+			<h3 class="element" typed></h3>
 		</div>
 	</div>
   	<div class="nav-bar container">
@@ -66,24 +66,8 @@
 <!-- Footer -->
 <div class="footer">
 	<div class="col-xs-12">
-		&copy; <script>document.write(new Date().getFullYear())</script> Tony-Leliw.com
+		&copy; <script>document.write(new Date().getFullYear())</script> Tony-Leliw.co.uk
 	</div>
 </div>
-<script>
-$(document).on('ready', function(){
-	$(function(){
-	    $(".element").typed({
-	    	strings: ["TONY LELIW"],
-	      	typeSpeed: 250,
-	      	startDelay: 100
-	    });
-	});
-
-	var removeCursor = function(){
-		$('.typed-cursor').css('visibility', 'hidden');
-	}
-	setTimeout(removeCursor, 5000);
-});
-</script>
 </body>
 </html>

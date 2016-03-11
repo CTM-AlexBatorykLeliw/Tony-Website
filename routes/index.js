@@ -2,31 +2,33 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var Asset = mongoose.model('Assets');
+var config = require('../config');
 // Module and variable for Mailer
 var nodemailer = require("nodemailer");
+var mailer = config.mailer;
 
 /* GET the Main page of the site. This is where we host all the partials */
-router.get('/', function(req, res, next){
+router.get('/', function(req, res){
 	res.render('index');
 });
 
 /************************** UPLOADS *****************************/
 /* AUTHENTICATION FOR THE UPLOADS PAGE */
-router.post('/uploads', function(req, res, next){
+router.post('/uploads', function(req, res){
 	var secret = req.body.secret;
 	var user = {};
-	user.authorised = secret === "ntR759Cf" ? true : false;
+	user.authorised = secret === config.uploadSecret ? true : false;
 	res.render('uploads', user);
 });
 
 router.get('/uploads/:key', function(req, res){
 	var secret = req.params.key;
 	var user = {};
-	user.authorised = secret === "ntR759Cf" ? true : false;
+	user.authorised = secret === config.uploadSecret ? true : false;
 	res.render('uploads', user);
 });
 
-router.get('/uploads', function(req, res, next){
+router.get('/uploads', function(req, res){
 	var user = { authorised: false };
 	res.render('uploads', user);
 });
@@ -63,7 +65,7 @@ router.post('/info', function(req, res, next){
 	});
 });
 
-/* UPDATE asset */
+/* UPDATE asset in DB */
 router.put('/info/:asset_id', function(req, res, next){
 	Asset.findById(req.params.asset_id, function(err, asset){
 		if(err)
@@ -162,12 +164,12 @@ router.get('/articles/PDFs', function(req, res, next){
 /************************** CONTACT *****************************/
 /* Send email using the form */
 router.post('/contact', function(req, res, next){
-	var transporter = nodemailer.createTransport('smtps://ctmalexbatorykleliw%40gmail.com:ntR759Cf@smtp.gmail.com');
+	var transporter = nodemailer.createTransport("smtps://" + mailer.sender + ":" + mailer.password+"@" + mailer.host);
 
 	var mail = {
 		from: req.body.name + ' <' + req.body.email + '>',
-		to: "alex.batoryk.leliw@hotmail.com",
-		subject: "Message from the website",
+		to: mailer.recipient,
+		subject: "Message from the website!",
 		text: req.body.text + '\n\n' + "Email: " + req.body.email
 	};
 
@@ -175,7 +177,6 @@ router.post('/contact', function(req, res, next){
         if(err)
             return next(err);
 
-        console.log(res);
         transporter.close();
     });
 
