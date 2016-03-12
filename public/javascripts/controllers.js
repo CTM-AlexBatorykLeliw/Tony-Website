@@ -137,7 +137,7 @@ app.controller('imageCtrl', function($scope, images){
             keys.push(k);
 
         for(var j = 0; j < keys.length; j++)
-            if(keys[k] == folder)
+            if(keys[j] == folder)
                 flag = false;
 
         if(flag)
