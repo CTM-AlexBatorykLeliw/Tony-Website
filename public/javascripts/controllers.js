@@ -121,7 +121,7 @@ app.controller('articlesCtrl',  function($scope, $window, links, PDFs){
     $scope.click = function(id, type)
     {
         if(type) // For links
-            $window.open('http://' + $scope.links[id].link,'_blank');
+            $window.open($scope.links[id].link,'_blank');
         else // For PDF's
             $window.open($scope.PDFs[id].path, '_blank');
     }

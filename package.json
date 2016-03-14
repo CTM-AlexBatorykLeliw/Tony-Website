@@ -23,5 +23,9 @@
     "nodemon": "^1.8.1",
     "serve-favicon": "~2.3.0",
     "typed.js": "^1.1.1"
+  },
+  "engines": {
+    "node": "latest",
+    "npm": "latest"
   }
 }
