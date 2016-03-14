@@ -161,6 +161,22 @@ router.get('/articles/PDFs', function(req, res, next){
 	});
 });
 
+router.put('/articles/:asset_id/visit', function(req, res, next){
+	Asset.findById(req.params.asset_id, function(err, asset){
+		if(err)
+			return next(err);
+
+		asset.visits = assets.visits++;
+
+		asset.save(function(err){
+			if(err)
+				return res.send(err);
+
+			return res.send('Asset updated');
+		});
+	});
+});
+
 /************************** CONTACT *****************************/
 /* Send email using the form */
 router.post('/contact', function(req, res, next){

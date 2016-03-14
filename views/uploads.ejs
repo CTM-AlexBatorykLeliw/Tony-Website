@@ -136,7 +136,14 @@
 		<div ng-show="e.desc">Description: <input ng-model="e.desc"></div>
 		<div ng-show="e.name">Name of asset: <input ng-model="e.name"></div>
 		<div ng-show="e.folder">Folder: <input ng-model="e.folder"></div>
-		<div ng-show="e.section">Section: <input ng-model="e.section"></div>
+		<div ng-show="e.section">Section:
+			<select ng-model="e.section">
+				<option value="loc">Local</option>
+				<option value="reg">Regional</option>
+				<option value="nat">National</option>
+				<option value="int">International</option>
+			</select>
+		</div>
 		<div ng-show="e.link">Link: <input ng-model="e.link"></div>
 		<button ng-click="makeChange(e.id)">Make Changes</button>
 	</div>

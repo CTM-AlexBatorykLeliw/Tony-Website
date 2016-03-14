@@ -13,7 +13,8 @@ var AssetSchema = new Schema({
 	created_at: Date,
 	updated_at: Date, 
 	path: String, // For getting the path of an image
-	folder: String // Image folder
+	folder: String, // Image folder
+	visits: Number
 });
 
 AssetSchema.pre('save', function(next){

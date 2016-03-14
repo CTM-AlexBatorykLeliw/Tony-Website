@@ -1,3 +1,6 @@
 /node_modules
+/public/assets/audio
 /public/assets/image
+/public/assets/PDF
+/public/assets/video
 /config.js

@@ -1,45 +1,49 @@
 <div class="container nav-bar">
-	<div style="padding: 20px 0">
-		<div class="left width-fourty">
-		<label class="articles">Section:</label>
-		<select class="form-control" style="width:initial; display:inline; height:30px" ng-model="section">
-			<option value="!!">All</option>
-			<option value="loc">Local</option>
-			<option value="reg">Regional</option>
-			<option value="nat">National</option>
-			<option value="int">International</option>
-		</select>
+	<div class="mobile-padding">
+		<div class="left width-quart">
+			<label class="articles">Section:</label>
+			<select class="form-control" ng-model="section">
+				<option value="!!">All</option>
+				<option value="loc">Local</option>
+				<option value="reg">Regional</option>
+				<option value="nat">National</option>
+				<option value="int">International</option>
+			</select>
 		</div>
-		<div class="left width-thirty">
+		<div class="left width-quart">
 			<label class="articles"><input type="checkbox" class="cursor" ng-model="link" ng-init="link=true"> Links</label>
-			 <label class="articles"><input type="checkbox" class="cursor" ng-model="pdf" ng-init="pdf=true"> PDFs</label>
+			<label class="articles"><input type="checkbox" class="cursor" ng-model="pdf" ng-init="pdf=true"> PDFs</label>
 		</div>
-		<div class="left width-thirty">
+		<div class="left width-quart">
 			<input type="text" ng-model="searchStr" placeholder="Search Title" class="form-control">
-		</div>		
+		</div>
+		<div class="left width-quart">
+			<label class="articles">Sort By:</label>
+			<select class="form-control" ng-model="sort">
+				<option value="visits">Most Viewed</option>
+				<option value="title">Alphabetical (Title)</option>
+				<option value="-title">Alphabetical (Description)</option>
+			</select>
+		</div>
 	</div>
-	<hr style="clear: both">
-	<div ng-show="link && (links | filter:{'title': searchStr} | filter:section).length">
+	<hr class="clear-both">
+	<div ng-show="link && (links | filter:{'title': searchStr} | filter:section).length | orderBy: sort">
 		<div class="col-xs-12 padding-bottom">
 			Links <span class="disclaimer">(will direct to external site)</span>
 		</div>
 		<div class="col-xs-12 padding-bottom" ng-repeat="x in links | filter:{'title': searchStr} | filter:section">
 			<button ng-click="click($index, true)" type="button" class="btn btn-default btn-lg btn-block article" title="Click for article">
-				<u>{{ x.title }}</u>
-				<br/> 
-				{{ x.desc }}
+				<u>{{ x.title }}</u><br/>{{ x.desc }}
 			</button>
 		</div>
 	</div>
-	<div ng-show="pdf && (PDFs | filter:{'title': searchStr} | filter:section).length">
+	<div ng-show="pdf && (PDFs | filter:{'title': searchStr} | filter:section).length | orderBy: sort">
 		<div class="col-xs-12 padding-bottom">
 			PDFs
 		</div>
 		<div class="col-xs-12 padding-bottom" ng-repeat="x in PDFs | filter:{'title': searchStr} | filter:section">
 			<button ng-click="click($index, false)" type="button" class="btn btn-default btn-lg btn-block article" title="Click to View">
-				<u>{{ x.title }}</u>
-				<br/> 
-				{{ x.desc }}
+				<u>{{ x.title }}</u><br/>{{ x.desc }}
 			</button>
 		</div>
 	</div>

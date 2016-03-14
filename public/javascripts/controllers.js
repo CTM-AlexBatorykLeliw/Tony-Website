@@ -113,13 +113,16 @@ app.controller('contactCtrl', function($scope, httpService){
 });
 
 app.controller('articlesCtrl',  function($scope, $window, links, PDFs){
-    $scope.section = "!!";
+    $scope.section = "!!", $scope.sort = "visits";
     $scope.pdf = true, $scope.link = true;
     $scope.links = links.data;
     $scope.PDFs = PDFs.data;
 
     $scope.click = function(id, type)
     {
+        // Adds a visit, through a click of an article
+        httpService.put('/articles/' + id + '/visit', {});
+
         if(type) // For links
             $window.open($scope.links[id].link,'_blank');
         else // For PDF's
@@ -204,9 +207,11 @@ app.controller('uploadCtrl', function($scope, httpService){
             asset.desc = $scope.a.desc;
             asset.link = $scope.a.link;
             asset.section = $scope.a.section;
+            asset.visits = 0;
         }
         else if(asset.type == 'PDF')
         {
+            asset.visits = 0;
             asset.title = $scope.a.title;
             asset.desc = $scope.a.desc;
             asset.path = 'assets/PDF/' + $scope.a.name;
