@@ -112,7 +112,7 @@ app.controller('contactCtrl', function($scope, httpService){
     }
 });
 
-app.controller('articlesCtrl',  function($scope, $window, links, PDFs, httpService){
+app.controller('articlesCtrl',  function($scope, $location, $window, links, PDFs, httpService){
     $scope.section = "!!", $scope.sort = "-visits";
     $scope.pdf = true, $scope.link = true;
     $scope.links = links.data, $scope.PDFs = PDFs.data;
@@ -120,10 +120,12 @@ app.controller('articlesCtrl',  function($scope, $window, links, PDFs, httpServi
     $scope.click = function(id, index, type)
     {
         // Adds a visit, through a click of an article
-        httpService.put('/articles/' + id + '/visit', {});
+        //httpService.put('/articles/' + id + '/visit', {});
 
         // Puts the user through to the chosen asset
-        $window.open($scope[type][index].path, '_blank');
+        $window.open('/articles/link/' + $scope[type][index].path);
+
+        //$window.open($scope[type][index].path, '_blank');
     }
 });
 

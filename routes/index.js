@@ -175,6 +175,11 @@ router.put('/articles/:asset_id/visit', function(req, res, next){
 	});
 });
 
+/************************** ARTICLE LINKS ***********************/
+router.get('/articles/link/:id', function(req, res, next){
+	res.render('link', { path: req.params.id });
+});
+
 /************************** CONTACT *****************************/
 /* Send email using the form */
 router.post('/contact', function(req, res, next){
