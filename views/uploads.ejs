@@ -34,8 +34,8 @@
 				<input type="text" class="form-control" ng-model="a.desc">
 			</div>
 			<div>
-				<label for="a.link">Link (include the http://www.)</label>
-				<input type="text" class="form-control" ng-model="a.link">
+				<label for="a.name">Name of asset (include file extention e.g. Example.pdf)</label>
+				<input type="text" class="form-control" ng-model="a.name">
 			</div>
 			<div>
 				<label for="a.section">Section</label>
@@ -114,7 +114,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<p> If needing to edit or delete any asset. Click the relevent button below</p>
+		<p> If needing to edit or delete any asset. Click the relevent button below and make changes below the list.</p>
 		<table>
 		<tr>
 			<td>Type</td>
@@ -125,7 +125,7 @@
 		<tr ng-repeat="x in assets | orderBy: 'type'">
 			<td> {{ x.type }} </td>
 			<td> {{ x.title }} </td>
-			<td><button ng-click="edit(x._id)">Edit</button> </td>
+			<td><button ng-click="edit(x._id)">Edit</button></td>
 			<td><button ng-click="delete(x._id)">Remove</button></td>
 		</tr>
 		</table>
@@ -134,7 +134,7 @@
 		<div>Here you can make changes to any information about a particular asset you want.</div>
 		<div ng-show="e.title">Title: <input ng-model="e.title"></div>
 		<div ng-show="e.desc">Description: <input ng-model="e.desc"></div>
-		<div ng-show="e.name">Name of asset: <input ng-model="e.name"></div>
+		<div ng-show="e.path">Path of asset: <input ng-model="e.path"></div>
 		<div ng-show="e.folder">Folder: <input ng-model="e.folder"></div>
 		<div ng-show="e.section">Section:
 			<select ng-model="e.section">
@@ -144,7 +144,6 @@
 				<option value="int">International</option>
 			</select>
 		</div>
-		<div ng-show="e.link">Link: <input ng-model="e.link"></div>
 		<button ng-click="makeChange(e.id)">Make Changes</button>
 	</div>
 </div>

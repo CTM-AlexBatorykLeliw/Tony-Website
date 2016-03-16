@@ -112,21 +112,18 @@ app.controller('contactCtrl', function($scope, httpService){
     }
 });
 
-app.controller('articlesCtrl',  function($scope, $window, links, PDFs){
-    $scope.section = "!!", $scope.sort = "visits";
+app.controller('articlesCtrl',  function($scope, $window, links, PDFs, httpService){
+    $scope.section = "!!", $scope.sort = "-visits";
     $scope.pdf = true, $scope.link = true;
-    $scope.links = links.data;
-    $scope.PDFs = PDFs.data;
+    $scope.links = links.data, $scope.PDFs = PDFs.data;
 
-    $scope.click = function(id, type)
+    $scope.click = function(id, index, type)
     {
         // Adds a visit, through a click of an article
         httpService.put('/articles/' + id + '/visit', {});
 
-        if(type) // For links
-            $window.open($scope.links[id].link,'_blank');
-        else // For PDF's
-            $window.open($scope.PDFs[id].path, '_blank');
+        // Puts the user through to the chosen asset
+        $window.open($scope[type][index].path, '_blank');
     }
 });
 
@@ -205,7 +202,7 @@ app.controller('uploadCtrl', function($scope, httpService){
         {
             asset.title = $scope.a.title;
             asset.desc = $scope.a.desc;
-            asset.link = $scope.a.link;
+            asset.path = 'assets/link/' + $scope.a.name;
             asset.section = $scope.a.section;
             asset.visits = 0;
         }
@@ -242,7 +239,7 @@ app.controller('uploadCtrl', function($scope, httpService){
     $scope.delete = function(id)
     {
         if(confirm("Are you sure you want to delete this?"))
-            httpService.delete('info/' + id).success(function(){
+            httpService.delete('/info/' + id).success(function(){
                 getAssets();
             });
     }
@@ -254,9 +251,8 @@ app.controller('uploadCtrl', function($scope, httpService){
                 title: data.title,
                 desc: data.desc,
                 section: data.section,
-                link: data.link,
-                name: data.name,
                 folder: data.folder,
+                path: data.path,
                 id: id
             };
         });
@@ -265,15 +261,9 @@ app.controller('uploadCtrl', function($scope, httpService){
 
     $scope.makeChange = function(id)
     {
-        var updatedInfo = {}, keys = [];
-        for(var k in $scope.e)
-            if($scope.e !== '')
-                updatedInfo[k] = $scope.e[k];
-
-        httpService.put('/info/' + id, updatedInfo).success(function(){
+        httpService.put('/info/' + id, $scope.e).success(function(){
             getAssets();
         });
-
-        $scope.editTab = false;
+        $scope.e = {}, $scope.editTab = false;
     }
 });

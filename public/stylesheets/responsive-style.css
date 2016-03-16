@@ -13,8 +13,8 @@
     .images {width: 200px; height: 166.666px;}
     .canvas { padding: 20px 0; }
     .mobile-padding { padding: 20px 15px 0 15px;}
-    .mobile-text { width: 100%; }
-    video {width: 100%;}
+    .mobile-text, video, .third, div select.form-control { width: 100%; }
+    .sort-sec{padding-bottom:10px;}
 }
 @media (max-width: 380px){
     .nav-link {width:100%; float:left;}

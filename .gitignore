@@ -1,6 +1,3 @@
 /node_modules
-/public/assets/audio
-/public/assets/image
-/public/assets/PDF
-/public/assets/video
+/public/assets
 /config.js

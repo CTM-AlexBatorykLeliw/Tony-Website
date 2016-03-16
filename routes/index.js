@@ -77,10 +77,8 @@ router.put('/info/:asset_id', function(req, res, next){
 			asset.desc = req.body.desc;
 		if(req.body.section)
 			asset.section = req.body.section;
-		if(req.body.link)
-			asset.link = req.body.link;
-		if(req.body.name)
-			asset.name = req.body.name;
+		if(req.body.path)
+			asset.path = req.body.path;
 		if(req.body.folder)
 			asset.folder = req.body.folder;
 
@@ -166,7 +164,7 @@ router.put('/articles/:asset_id/visit', function(req, res, next){
 		if(err)
 			return next(err);
 
-		asset.visits = assets.visits++;
+		asset.visits = asset.visits + 1;
 
 		asset.save(function(err){
 			if(err)
@@ -180,7 +178,7 @@ router.put('/articles/:asset_id/visit', function(req, res, next){
 /************************** CONTACT *****************************/
 /* Send email using the form */
 router.post('/contact', function(req, res, next){
-	var transporter = nodemailer.createTransport("smtps://" + mailer.sender + ":" + mailer.password+"@" + mailer.host);
+	var transporter = nodemailer.createTransport("smtps://" + mailer.sender + ":" + mailer.password+ "@" + mailer.host);
 
 	var mail = {
 		from: req.body.name + ' <' + req.body.email + '>',
