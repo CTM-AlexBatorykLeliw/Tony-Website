@@ -120,12 +120,10 @@ app.controller('articlesCtrl',  function($scope, $location, $window, links, PDFs
     $scope.click = function(id, index, type)
     {
         // Adds a visit, through a click of an article
-        //httpService.put('/articles/' + id + '/visit', {});
+        httpService.put('/articles/' + id + '/visit', {});
 
         // Puts the user through to the chosen asset
         $window.open('/articles/link/' + $scope[type][index].path);
-
-        //$window.open($scope[type][index].path, '_blank');
     }
 });
 
