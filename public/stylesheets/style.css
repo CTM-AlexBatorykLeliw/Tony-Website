@@ -134,6 +134,7 @@ textarea {
 }
 .dropdown:hover .dropdown-content {display: block;}
 a { color: #999999!important; }
+.active {color:#000000; font-weight:bold;}
 .cursor { cursor:pointer; }
 .help-block, .with-errors { font-size:14px; }
 .star { color:red; }
