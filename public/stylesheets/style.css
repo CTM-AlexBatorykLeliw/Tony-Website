@@ -29,13 +29,8 @@ audio { background-color: #ccc }
 a:hover { font-weight:bold; }
 a { text-decoration: none!important }
 .icon-bar {background-color: #888;}
-.third {
-    width:33%;
-    float:left;
-}
-.sort-sec {
-    width: 99%;
-}
+.width-30 {width:30%;}
+.width-40 {width:40%;}
 .width-fourty {width: 40%;}
 .profile-img {
 	width: 200px;
@@ -47,9 +42,7 @@ a { text-decoration: none!important }
     margin: 0 auto;
 }
 .word-wrap { white-space: normal; }
-#content{
-    overflow: auto;
-}
+#content{overflow: auto;}
 #content .sidebar {
     width: 180px;
     float:left;

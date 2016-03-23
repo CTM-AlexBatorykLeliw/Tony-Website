@@ -3,6 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Asset = mongoose.model('Assets');
 var config = require('../config');
+var fs = require('fs');
 // Module and variable for Mailer
 var nodemailer = require("nodemailer");
 var mailer = config.mailer;
@@ -53,16 +54,64 @@ router.get('/info/:asset_id', function(req, res, next){
 	});
 });
 
-/* POST Asset into DB */
-router.post('/info', function(req, res, next){
-	var asset = new Asset(req.body);
+/* Upload ALL assets into server */
+var multer = require('multer');
+var upload = multer({ storage:
+	multer.diskStorage({
+	  	destination: function(req, file, callback){
+	  		var path = "./public/assets";	
+	  		switch(req.body.type)
+	  		{
+	  			case 'link': path += '/link'; break;
+	  			case 'PDF': path += '/PDF'; break;
+	  			case 'video': path += '/video'; break;
+	  			case 'audio': path += '/audio'; break;
+	  			case 'image': path += '/image/' + req.body.folder; break;
+	  		}
+	    	callback(null, path);
+	  	},
+	  	filename: function(req, file, callback){
+	    	callback(null, file.originalname);
+	  	}
+	})
+});
+/* Middleware to upload assets into database and add to server */
+function myUpload(multUpload){
+	return function(req, res, next){
+		multUpload(req, res, function(err){
+			if(err)
+				return next(err);
 
-	asset.save(function(err, asset){
-		if(err)
-			return next(err);
+			var asset = new Asset(req.body);
+			asset.save(function(err, asset){
+				if(err)
+					return next(err);
 
-		res.json(asset);
-	});
+				res.render('uploads', {authorised: true});
+			});
+		});
+	}
+}
+
+/* POST Asset into DB and upload to server */
+router.post('/info', myUpload(upload.single('file')), function(req, res, err, next){
+	if(err)
+		return res.send("Err: " + err);
+
+	res.render('uploads', {authorised: true});
+});
+
+/* GET all of the image folders in the server */
+router.get('/info/image/folders', function(req, res, next){
+	var folders = fs.readdirSync('./public/assets/image');
+	res.json(folders);
+});
+
+/* POST a folder into the image assets in the server */
+router.post('/info/image/folders/add', function(req, res, next){
+	console.log(req.body.name);
+	fs.mkdir('./public/assets/image/' + req.body.name);
+	res.json("Folder made");
 });
 
 /* UPDATE asset in DB */
@@ -81,6 +130,8 @@ router.put('/info/:asset_id', function(req, res, next){
 			asset.path = req.body.path;
 		if(req.body.folder)
 			asset.folder = req.body.folder;
+		if(req.body.name)
+			asset.name = req.body.name;
 
 		asset.save(function(err){
 			if(err)

@@ -12,6 +12,7 @@ var AssetSchema = new Schema({
 	created_at: Date,
 	updated_at: Date, 
 	path: String, // For getting the path of an asset
+	name: String, // Name of Link
 	folder: String, // Image folder
 	visits: Number
 });

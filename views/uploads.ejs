@@ -8,113 +8,62 @@
 <script src="javascripts/controllers.js"></script>
 	<title>Upload here</title>
 </head>
+<style>
+	div {padding: 5px;}
+</style>
 <body ng-app="portfolio">
 
 <% if(authorised){ %>
-<div class="container" ng-controller="uploadCtrl">
-	<div class="row">
-		<div class="col-xs-8">
-			<div>
-				<label for="a.type">What are you adding?</label>
-				<select ng-model="a.type">
+<div ng-controller="uploadCtrl">
+	<div>
+		<div>
+			<h2>To add something, select the appropriate type of file and fill out ALL of the criteria below.</h2>
+			<form enctype="multipart/form-data" action="/info" method="post">
+				<label for="type">What are you adding?</label>
+				<select ng-init="type=''" ng-model="type" name="type">
 					<option value="link" selected>Link</option>
 					<option value="PDF">PDF</option>
 					<option value="image">Image</option>
 					<option value="video">Video</option>
 					<option value="audio">Audio</option>
 				</select>
-			</div>
-			<div ng-model="link" ng-hide="a.type !== 'link'">
-			<div>
-				<label for="a.title">Title</label>
-				<input type="text" class="form-control" ng-model="a.title">
-			</div>
-			<div>
-				<label for="a.desc">Description</label>
-				<input type="text" class="form-control" ng-model="a.desc">
-			</div>
-			<div>
-				<label for="a.name">Name of asset (include file extention e.g. Example.pdf)</label>
-				<input type="text" class="form-control" ng-model="a.name">
-			</div>
-			<div>
-				<label for="a.section">Section</label>
-				<select ng-model="a.section">
-					<option value="loc">Local</option>
-					<option value="reg">Regional</option>
-					<option value="nat">National</option>
-					<option value="int">International</option>
-				</select>
-			</div>
-			</div>
-			<div ng-model="PDF" ng-hide="a.type !== 'PDF'">
-			<div>
-				<label for="a.title">Title</label>
-				<input type="text" class="form-control" ng-model="a.title">
-			</div>
-			<div>
-				<label for="a.desc">Description</label>
-				<input type="text" class="form-control" ng-model="a.desc">
-			</div>
-			<div>
-				<label for="a.name">Name of asset (include file extention e.g. Example.pdf)</label>
-				<input type="text" class="form-control" ng-model="a.name">
-			</div>
-			<div>
-				<label for="a.section">Section</label>
-				<select ng-model="a.section">
-					<option value="loc">Local</option>
-					<option value="reg">Regional</option>
-					<option value="nat">National</option>
-					<option value="int">International</option>
-				</select>
-			</div>
-			</div>
-			<div ng-model="audio" ng-hide="a.type !== 'audio'">
-			<div>
-				<label for="a.title">Title</label>
-				<input type="text" class="form-control" ng-model="a.title">
-			</div>
-			<div>
-				<label for="a.name">Name of asset (include file extention e.g. Example.pdf)</label>
-				<input type="text" class="form-control" ng-model="a.name">
-			</div>
-			</div>
-			<div ng-model="image" ng-hide="a.type !== 'image'">
-			<div>
-				<label for="a.title">Title</label>
-				<input type="text" class="form-control" ng-model="a.title">
-			</div>
-			<div>
-				<label for="a.name">Name of asset (include file extention e.g. Example.pdf)</label>
-				<input type="text" class="form-control" ng-model="a.name">
-			</div>
-			<div>
-				<label for="a.desc">Name of folder</label>
-				<input type="text" class="form-control" ng-model="a.folder">
-			</div>
-			</div>
-			<div ng-model="video" ng-hide="a.type !== 'video'">
-			<div>
-				<label for="a.title">Title</label>
-				<input type="text" class="form-control" ng-model="a.title">
-			</div>
-			<div>
-				<label for="a.desc">Description</label>
-				<input type="text" class="form-control" ng-model="a.desc">
-			</div>
-			<div>
-				<label for="a.name">Name of asset (include file extention e.g. Example.pdf)</label>
-				<input type="text" class="form-control" ng-model="a.name">
-			</div>
-			</div>
-			<div>
-				<button ng-click="add()">Add</button>
-			</div>
+				<div ng-show="type!=''">
+					<div>
+						<label for="title">Title</label>
+						<input type="text" name="title">
+					</div>
+					<div ng-show="type=='link' || type=='PDF' || type=='video'">
+						<label for="desc">Description</label>
+						<input type="text" name="desc">
+					</div>
+					<div ng-show="type=='link' || type=='PDF'">
+						<label for="section">Section</label>
+						<select ng-init="section=''" ng-model="section" name="section">
+							<option value="loc">Local</option>
+							<option value="reg">Regional</option>
+							<option value="nat">National</option>
+							<option value="int">International</option>
+						</select>
+					</div>
+					<div ng-show="type=='image'">
+						<label for="desc">Name of folder</label>
+						<select name="folder" ng-model="folder" ng-init="folder=''">
+							<option ng-repeat="x in folders">{{ x }}</option>
+						</select>
+						<p>To add a new image folder, type in a name and click the button</p>
+						<input type="text" ng-model="folName">
+						<input type="button" value="Add Folder" ng-click="addFolder()">
+					</div>
+					<div>
+						<input type="file" name="file">
+					</div>
+					<input type="submit" value="Add Asset">
+				</div>	
+			</form>	
 		</div>
 	</div>
 	<div class="row">
-		<p> If needing to edit or delete any asset. Click the relevent button below and make changes below the list.</p>
+		<h2> If needing to edit or delete any asset. Click the relevent button below and make any changes in the input boxes below this list.</h2>
 		<table>
 		<tr>
 			<td>Type</td>
@@ -136,6 +85,7 @@
 		<div ng-show="e.desc">Description: <input ng-model="e.desc"></div>
 		<div ng-show="e.path">Path of asset: <input ng-model="e.path"></div>
 		<div ng-show="e.folder">Folder: <input ng-model="e.folder"></div>
+		<div ng-show="e.name">Name: <input ng-model="e.name"></div>
 		<div ng-show="e.section">Section:
 			<select ng-model="e.section">
 				<option value="loc">Local</option>

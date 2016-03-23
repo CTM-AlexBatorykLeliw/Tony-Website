@@ -123,7 +123,10 @@ app.controller('articlesCtrl',  function($scope, $location, $window, links, PDFs
         httpService.put('/articles/' + id + '/visit', {});
 
         // Puts the user through to the chosen asset
-        $window.open('/articles/link/' + $scope[type][index].path);
+        if(type == 'links')
+            $window.open('/articles/link/' + $scope[type][index].name);
+        else
+            $window.open($scope[type][index].path);
     }
 });
 
@@ -186,7 +189,7 @@ app.controller('audioCtrl', function($scope, audio){
 });
 
 app.controller('uploadCtrl', function($scope, httpService){
-    $scope.a = {}, $scope.e = {}, $scope.editTab = false;
+    $scope.e = {}, $scope.editTab = false, $scope.folders = [];
     function getAssets()
     {
         httpService.get('/info').success(function(assets){
@@ -195,45 +198,19 @@ app.controller('uploadCtrl', function($scope, httpService){
     }
     getAssets();
 
-    $scope.add = function()
+    function getFolders()
     {
-        var asset = { type: $scope.a.type };
-        if(asset.type == 'link')
-        {
-            asset.title = $scope.a.title;
-            asset.desc = $scope.a.desc;
-            asset.path = 'assets/link/' + $scope.a.name;
-            asset.section = $scope.a.section;
-            asset.visits = 0;
-        }
-        else if(asset.type == 'PDF')
-        {
-            asset.visits = 0;
-            asset.title = $scope.a.title;
-            asset.desc = $scope.a.desc;
-            asset.path = 'assets/PDF/' + $scope.a.name;
-            asset.section = $scope.a.section;
-        }
-        else
-        {
-            if(asset.type == 'audio')
-                asset.path = 'assets/audio/' + $scope.a.name;
-            else if(asset.type == 'video')
-            {
-                asset.desc = $scope.a.desc;
-                asset.path = 'assets/video/' + $scope.a.name;
-            }
-            else if(asset.type == 'image')
-            {
-                asset.folder = $scope.a.folder;
-                asset.path = 'assets/image/' + asset.folder + '/' + $scope.a.name;
-            }
-            asset.title = $scope.a.title;
-        }
+        httpService.get('/info/image/folders').success(function(data){
+            $scope.folders = data;
+        });
+    }
+    getFolders();
 
-        $scope.a = {};
-        httpService.post('/info/', asset);
-        getAssets();
+    $scope.addFolder = function()
+    {
+        httpService.post('/info/image/folders/add', { name: $scope.folName }).success(function(){
+            getFolders();
+        });
     }
 
     $scope.delete = function(id)
@@ -253,6 +230,7 @@ app.controller('uploadCtrl', function($scope, httpService){
                 section: data.section,
                 folder: data.folder,
                 path: data.path,
+                name: data.name,
                 id: id
             };
         });
